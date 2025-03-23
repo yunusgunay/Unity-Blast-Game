@@ -95,21 +95,25 @@ public class MatchingManager : Singleton<MatchingManager>
         _ = MovesManager.Instance.DecreaseMovesAsync();
         SpawnBonus(cell, matchedCubeItemCount);
     }
-    private void SpawnBonus(Cell cell,int matchedCellCount)
-    {
-        switch (matchedCellCount)
-        {
-            case >= 5:
-                cell.item = ItemFactory.Instance.CreateItem(ItemType.HorizontalRocket, board.itemsParent);
-                break;
-          
-            default: 
-                break;
-        }
 
+    private void SpawnBonus(Cell cell, int matchedCellCount)
+    {
+        // If 4+ cubes were matched, spawn rocket
+        if (matchedCellCount >= 4) 
+        {
+            RocketDirection randomDir = (Random.Range(0, 2) == 0) 
+                ? RocketDirection.Horizontal : RocketDirection.Vertical;
+
+            ItemType rocketType = (randomDir == RocketDirection.Horizontal) 
+                ? ItemType.HorizontalRocket : ItemType.VerticalRocket;
+
+            cell.item = ItemFactory.Instance.CreateItem(rocketType, board.itemsParent);         
+        }
+        
         if(cell.item == null) return;
         cell.item.transform.position = cell.transform.position;
     }
+    
     private void ExplodeMatchingCellsInNeightbours(Cell cell, List<Cell> previousCells)
     {
         var explodedCellNeightbours = cell.neighbours;

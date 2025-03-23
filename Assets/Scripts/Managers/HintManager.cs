@@ -4,6 +4,7 @@ using UnityEngine;
 public class HintManager : MonoBehaviour
 {
     [SerializeField] private GameBoard board;
+
     private void ShowHints()
     {
         var visitedCells = new List<Cell>();
@@ -31,13 +32,14 @@ public class HintManager : MonoBehaviour
             }
         }
     }
+
     private void CheckHintForCombo(Item item,int comboCount)
     {
         if(item.GetMatchType() == MatchType.Special && comboCount > 1)
         {
             if (item.Particle != null) return;
 
-            var particle = ParticleManager.Instance.ComboHintParticle;
+            var particle = ParticleAnimation.Instance.ComboHintParticle;
             var particleObj = Instantiate(particle, item.transform.position, Quaternion.identity, item.transform);
             item.Particle = particleObj;
         }
@@ -46,19 +48,17 @@ public class HintManager : MonoBehaviour
             Destroy(item.Particle.gameObject);
         }
     }
+
     private void HintSpriteUpdate(Item item, int matchedCount)
     {
-        switch (matchedCount)
-        {
-            case < 5:
-                item.HintUpdateToSprite(item.ItemType);
-                break;
-            default:
-                item.HintUpdateToSprite(ItemType.HorizontalRocket);
-                break;
+        if(matchedCount >= 4) {
+            item.HintUpdateToSprite(ItemType.HorizontalRocket);
+            return;
         }
-
+        
+        item.HintUpdateToSprite(item.ItemType);
     }
+
     private void Update()
     {
         ShowHints();

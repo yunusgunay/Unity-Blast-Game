@@ -254,7 +254,7 @@ MonoBehaviour:
   m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -570,7 +570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a84a3c4c6271bb4a8b232a9c86b48b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameGrid: {fileID: 0}
+  gameGrid: {fileID: 1375860279}
+  sr: {fileID: 476379089}
 --- !u!1 &491579509
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +584,6 @@ GameObject:
   - component: {fileID: 491579511}
   - component: {fileID: 491579514}
   - component: {fileID: 491579510}
-  - component: {fileID: 491579513}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -665,18 +665,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &491579513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491579509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 216c3a8408838c34c85eeef2acb0f575, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!124 &491579514
 Behaviour:
   m_ObjectHideFlags: 0
@@ -840,6 +828,7 @@ GameObject:
   - component: {fileID: 810160830}
   - component: {fileID: 810160832}
   - component: {fileID: 810160833}
+  - component: {fileID: 810160838}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -914,7 +903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalPrefab: {fileID: 5812006786180328140, guid: 153c8f7939d60e5479f2756767197337, type: 3}
-  goalsParent: {fileID: 7393847871278262284, guid: 153c8f7939d60e5479f2756767197337, type: 3}
+  goalsParent: {fileID: 985866332}
 --- !u!114 &810160831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,10 +959,10 @@ MonoBehaviour:
   CubeParticleRed: {fileID: 5386665437018754473, guid: a6395d5e7c4e34c8091baa85d38e20eb, type: 3}
   CubeParticleYellow: {fileID: 5386665437018754473, guid: d5f3dc1eb26f247aea6bdf4c806f9f4a, type: 3}
   CubeParticleGreen: {fileID: 5386665437018754473, guid: 10834826f3a304b22a316e416f7d219e, type: 3}
-  ComboHintParticle: {fileID: 198273935841579388, guid: d1f650ccc6aab064f8ab624c28ebe3cb, type: 3}
   BoxParticle: {fileID: 5386665437018754473, guid: 0c1cfb71b87114af7a237277d7f398ca, type: 3}
   StoneParticle: {fileID: 5386665437018754473, guid: a166e82edf3084866984968528ba60c0, type: 3}
   VaseParticle: {fileID: 5386665437018754473, guid: c0c66f4126ae847a19c674d672d51a64, type: 3}
+  ComboHintParticle: {fileID: 198273935841579388, guid: d1f650ccc6aab064f8ab624c28ebe3cb, type: 3}
 --- !u!114 &810160835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,6 +1001,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1375860279}
+--- !u!114 &810160838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810160826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb23a9277f7cc041ae448a774f3e673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 1375860279}
+  partedLeftPrefab: {fileID: 5844575802272031138, guid: b391ee712e46fc241904080b20d04ded, type: 3}
+  partedRightPrefab: {fileID: 3460714587810511059, guid: ebec9d16455c9d841a8711fb703756de, type: 3}
+  partedTopPrefab: {fileID: 4684749140348182723, guid: 97f5de125ecd3b642a14d701f83b585c, type: 3}
+  partedBottomPrefab: {fileID: 4675046823580646070, guid: d41796cc2564f504cbdd2f9d03aaba00, type: 3}
 --- !u!1 &840452189
 GameObject:
   m_ObjectHideFlags: 0

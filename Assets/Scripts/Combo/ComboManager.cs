@@ -6,7 +6,8 @@ using UnityEngine;
 public class ComboManager : Singleton<ComboManager>
 {
     private Dictionary<ComboType, ComboEffect> comboEffects;
-    private List<Cell> matchedCells;
+    private List<Cell> matchedCells; // Potentially used to store rocket adjacency.
+    
     protected override void Awake()
     {
         base.Awake();
@@ -17,47 +18,57 @@ public class ComboManager : Singleton<ComboManager>
     {
         comboEffects = new Dictionary<ComboType, ComboEffect>
         {
-            {ComboType.Rocket, ScriptableObject.CreateInstance<Rocket>()},
+            {ComboType.Rocket, ScriptableObject.CreateInstance<RocketCombo>()},
         };
     }
 
-    public ComboType GetComboType(Cell cell)
+    public async void TryExecute(Cell tappedCell)
     {
-        matchedCells = MatchingManager.Instance.FindMatches(cell, MatchType.Special);
-        if (matchedCells.Count <= 1) return ComboType.None;
+        ComboType comboType = GetComboType(tappedCell);
 
-        int bombCount = 0;
-
-
-        foreach(var matchedCell in matchedCells)
+        if(comboType == ComboType.None)
         {
-            var matchedItem = matchedCell.item;
-            if (matchedItem.ItemType == ItemType.HorizontalRocket)
-                bombCount++;    
+            tappedCell.item.TryExecute();
         }
 
-       return ComboType.Rocket;
-       
-    }
-
-    public async void TryExecute(Cell cell)
-    {
-        ComboType comboType = GetComboType(cell);
-
-        if(comboEffects.TryGetValue(comboType, out var comboEffect))
+        else if (comboEffects.TryGetValue(comboType, out var effect))
         {
-            comboEffect.ApplyEffect(cell, matchedCells);
+            // Stop fall and fill while combo is active
+            FallAndFillManager.Instance.StopFall();
 
-            // Disable the inputs during animation
-            this.GetComponent<TouchManager>().enabled = false;
+            effect.ApplyEffect(tappedCell);
+
+            // Disable the inputs during animation.
+            TouchManager tm = this.GetComponent<TouchManager>();
+            if(tm != null) tm.enabled = false;
+
+            // Animation delay
             await Task.Delay(TimeSpan.FromSeconds(1));
-            this.GetComponent<TouchManager>().enabled = true;
+
+            if(tm != null) tm.enabled = true;
         }
-        else
-            cell.item.TryExecute();
-
+        
         _ = MovesManager.Instance.DecreaseMovesAsync();
-
-
     }
+    
+    public ComboType GetComboType(Cell tappedCell)
+    {
+        if(!(tappedCell.item is RocketItem)) 
+            return ComboType.None;
+
+        // Check neighbors for another rocket
+        bool foundAnotherRocket = false;
+        foreach(Cell neighbor in tappedCell.neighbours)
+        {
+            if(neighbor.item is RocketItem)
+            {
+                // We found at least two adjacent rockets
+                foundAnotherRocket = true;
+                return ComboType.Rocket;
+            }
+        }
+
+        return foundAnotherRocket ? ComboType.Rocket : ComboType.None;   
+    }
+
 }

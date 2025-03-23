@@ -87,7 +87,7 @@ public class Cell : MonoBehaviour
         return neighbours;
     }
 
-    private Cell GetNeighbourWithDirection(Direction direction)
+    public Cell GetNeighbourWithDirection(Direction direction)
     {
         var x = X;
         var y = Y;

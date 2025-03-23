@@ -1,20 +1,22 @@
+using UnityEngine;
+
 [System.Serializable]
 public enum ItemType {
     None,
     
-    // Cubes
+    [Header("Cubes")]
     BlueCube,
     GreenCube,
     RedCube,
     YellowCube,
 
-    // Obstacles
+    [Header("Obstacles")]
     Box,
     Stone,
     Vase01,
     Vase02,
 
-    // Rockets
+    [Header("Rockets")]
     HorizontalRocket,
     VerticalRocket
 }

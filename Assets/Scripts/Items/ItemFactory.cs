@@ -15,9 +15,9 @@ public class ItemFactory : Singleton<ItemFactory>
         { ItemType.Box, CreateBoxItem },
         { ItemType.Stone, CreateStoneItem },
         { ItemType.Vase01, CreateVaseItem },
-        { ItemType.Vase02, CreateVaseItem }
-        /*{ ItemType.HorizontalRocket, CreateHRocket },
-        { ItemType.VerticalRocket, CreateVRocket }*/
+        { ItemType.Vase02, CreateVaseItem },
+        { ItemType.HorizontalRocket, CreateHRocket },
+        { ItemType.VerticalRocket, CreateVRocket }
     };
 
     public Item CreateItem(ItemType itemType, Transform parent)
@@ -62,5 +62,19 @@ public class ItemFactory : Singleton<ItemFactory>
         var vaseItem = itemBase.gameObject.AddComponent<VaseItem>();
         vaseItem.PrepareVaseItem(itemBase);
         return vaseItem;
+    }
+
+    private static Item CreateHRocket(ItemBase itemBase)
+    {
+        var rocketItem = itemBase.gameObject.AddComponent<RocketItem>();
+        rocketItem.PrepareRocketItem(itemBase, RocketDirection.Horizontal);
+        return rocketItem;
+    }
+
+    private static Item CreateVRocket(ItemBase itemBase)
+    {
+        var rocketItem = itemBase.gameObject.AddComponent<RocketItem>();
+        rocketItem.PrepareRocketItem(itemBase, RocketDirection.Vertical);
+        return rocketItem;
     }
 }

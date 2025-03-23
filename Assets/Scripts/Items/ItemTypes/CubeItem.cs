@@ -1,22 +1,15 @@
 using UnityEngine;
-
-/// <summary>
-/// 
-/// CubeItem is a class that represents a cube item in the game. It inherits from the Item class.
-/// 
-/// </summary>
-public class CubeItem : Item
-{
+// This class represents a single CUBE in a Cell.
+public class CubeItem : Item {
     private MatchType matchType;
     
-    public void PrepareCubeItem(ItemBase itemBase,MatchType matchType)
-    {
+    public void PrepareCubeItem(ItemBase itemBase, MatchType matchType) {
         this.matchType = matchType;
         itemBase.Clickable = true;
         Prepare(itemBase, GetSpritesForMatchType());
     }
-    private Sprite GetSpritesForMatchType()
-    {
+
+    private Sprite GetSpritesForMatchType() {
         var imageLibrary = ImageConverter.Instance;
         switch(matchType)
         {
@@ -31,10 +24,12 @@ public class CubeItem : Item
         }
         return null;
     }
+
     public override MatchType GetMatchType()
     {
         return matchType;
     }
+    
     public override void HintUpdateToSprite(ItemType itemType)
     {
         var imageLibrary = ImageConverter.Instance;
@@ -77,7 +72,7 @@ public class CubeItem : Item
     
     public override void TryExecute()
     {
-        ParticleManager.Instance.PlayParticle(this);
+        ParticleAnimation.Instance.PlayParticle(this);
         base.TryExecute();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class ComboEffect : ScriptableObject
 {
-    public abstract void ApplyEffect(Cell cell, List<Cell> matchedCells);
+    public abstract void ApplyEffect(Cell cell);
     public abstract List<Cell> GetAffectedCells(Cell cell);
 
     public float mergeAnimationTime = 0.3f;

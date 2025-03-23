@@ -1,53 +1,66 @@
-using DG.Tweening;
 using System.Collections.Generic;
-using System.Linq;
 
-public class Rocket : ComboEffect
+public class RocketCombo : ComboEffect
 {
-    private float growthTime = 0.3f;
-    private float shakeDuration = 0.7f;
-    private float shakeStrength = 0.2f;
-
-    public override void ApplyEffect(Cell cell, List<Cell> matchedCells)
+    public override void ApplyEffect(Cell tappedCell)
     {
-        CreateMergeAnimationForMatchedCells(cell, matchedCells);
-
-        mergeTween.OnComplete(() =>
+        // Find all adjacent rocket cells
+        List<Cell> rocketCells = new List<Cell>();
+        rocketCells.Add(tappedCell);
+        
+        foreach (Cell neighbor in tappedCell.neighbours)
         {
-            ShakeAnimation.ApplyShakeAnimation(cell.item.transform, shakeDuration, shakeStrength).OnComplete(() =>
+            if (neighbor.item is RocketItem)
             {
-                CameraManager.Instance.TriggerShakeEffect();
-                ExecuteItemsInAffectedCells(cell);
-            });
-
-        });
+                rocketCells.Add(neighbor);
+            }
+        }
+        
+        // For each rocket, first store their positions, then explode them
+        // This prevents modifying the board while iterating
+        foreach (Cell rocketCell in rocketCells)
+        {
+            // It's important to remove the item from the cell BEFORE calling TryExecute
+            // to prevent infinite recursion
+            Item rocketItem = rocketCell.item;
+            rocketCell.item = null;
+            
+            // Now explode the rocket
+            if (rocketItem != null)
+                rocketItem.TryExecute();
+        }
+        
+        // Create 3x3 explosion effect at the tapped cell location
+        Create3x3Explosion(tappedCell);
     }
 
     public override List<Cell> GetAffectedCells(Cell cell)
     {
-        List<Cell> affectedCells = new List<Cell>();
-        List<Cell> cellAllArea = cell.allArea;
-
-        affectedCells.AddRange(cellAllArea);
-
-        for (int i = 0; i < 2; i++)
-        {
-            List<Cell> tempList = new List<Cell>(affectedCells);
-            foreach (var c in tempList)
-                affectedCells.AddRange(c.allArea);
-
-            affectedCells = affectedCells.Distinct().ToList();
-        }
-        return affectedCells;
+        throw new System.NotImplementedException();
     }
 
-    protected override void CreateMergeAnimationForMatchedCells(Cell cell, List<Cell> matchedCells)
+    private void Create3x3Explosion(Cell centerCell)
     {
-        base.CreateMergeAnimationForMatchedCells(cell, matchedCells);
-
-        var item = cell.item;
-        item.SpriteRenderer.sortingOrder += 10;
-        mergeTween = item.transform.DOScale(cell.item.transform.localScale * 3, growthTime);
-
+        // Get all cells in a 3x3 grid centered on the tapped cell
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                int targetX = centerCell.X + x;
+                int targetY = centerCell.Y + y;
+                
+                // Get the cell if it exists
+                GameBoard board = RocketManager.Instance.board;
+                if (targetX >= 0 && targetX < board.Cols && 
+                    targetY >= 0 && targetY < board.Rows)
+                {
+                    Cell targetCell = board.Cells[targetX, targetY];
+                    if (targetCell != null && targetCell.item != null)
+                    {
+                        targetCell.item.TryExecute();
+                    }
+                }
+            }
+        }
     }
 }

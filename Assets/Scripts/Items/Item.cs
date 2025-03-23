@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -24,6 +22,7 @@ public class Item : MonoBehaviour
     public FallAnimation FallAnimation;
     public ParticleSystem Particle;
     private Cell cell;
+    
     public Cell Cell
     {
         get { return cell; }

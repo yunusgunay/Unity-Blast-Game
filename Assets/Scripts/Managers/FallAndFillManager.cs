@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class FallAndFillManager : Singleton<FallAndFillManager>
 {
@@ -6,6 +7,7 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
     private GameBoard board;
     private LevelData levelData;
     private Cell[] fillingCells;
+
     public void Init(GameBoard board, LevelData levelData)
     {
         this.board = board;
@@ -19,13 +21,13 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
     {
         var cellList = new List<Cell>();
 
-        for(var y = 0; y < board.Rows; y++)
+        for (int y = 0; y < board.Rows; y++)
         {
-            for(var x = 0; x < board.Cols; x++)
+            for (int x = 0; x < board.Cols; x++)
             {
                 var cell = board.Cells[x, y];
 
-                if(cell != null && cell.isFillingCell)
+                if (cell != null && cell.isFillingCell)
                     cellList.Add(cell);
             }
         }
@@ -34,37 +36,39 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
 
     public void DoFalls()
     {
-        for(int y = 0; y < board.Rows; y++)
+        // Iterate over all cells and let items fall if there is an empty cell below.
+        for (int y = 0; y < board.Rows; y++)
         {
             for (int x = 0; x < board.Cols; x++)
             {
                 var cell = board.Cells[x, y];
 
                 if (cell.item != null && cell.firstCellBelow != null && cell.firstCellBelow.item == null)
+                {
                     cell.item.Fall();
+                }
             }
         }
     }
 
     public void DoFills()
     {
+        // For every "filling" cell (usually the top row cells), if empty, instantiate a new item.
         for (int i = 0; i < fillingCells.Length; i++)
         {
             var cell = fillingCells[i];
 
-            if(cell.item == null)
+            if (cell.item == null)
             {
+                // Create a new random cube item (from your LevelData helper)
                 cell.item = ItemFactory.Instance.CreateItem(LevelData.GetRandomCubeItemType(), board.itemsParent);
 
-                var offsetY = 0.0f;
+                // Calculate an initial spawn position (above the cell)
+                float offsetY = 0.0f;
                 var targetCellBelow = cell.GetFallTarget().firstCellBelow;
-
-                if(targetCellBelow != null)
+                if (targetCellBelow != null && targetCellBelow.item != null)
                 {
-                    if(targetCellBelow.item != null)
-                    {
-                        offsetY = targetCellBelow.item.transform.position.y + 1;
-                    }
+                    offsetY = targetCellBelow.item.transform.position.y + 1;
                 }
 
                 var pos = cell.transform.position;
@@ -78,6 +82,7 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
             }
         }
     }
+
     public void StartFall() { isActive = true; }
     public void StopFall() { isActive = false; }
 
@@ -87,6 +92,25 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
 
         DoFalls();
         DoFills();
+    }
+    
+    private void OnEnable()
+    {
+        // Subscribe to the rocket manager event that signals all parted rockets are finished
+        if (RocketManager.Instance != null)
+            RocketManager.Instance.OnAllPartedRocketsFinished += HandleAllPartedRocketsDone;
+    }
 
+    private void OnDisable()
+    {
+        if (RocketManager.Instance != null)
+            RocketManager.Instance.OnAllPartedRocketsFinished -= HandleAllPartedRocketsDone;
+    }
+
+    private void HandleAllPartedRocketsDone()
+    {
+        // When all parted rockets have finished their explosion,
+        // resume falling/filling of the board
+        StartFall();
     }
 }

@@ -1,23 +1,48 @@
 using UnityEngine;
 
-/// <summary>
-/// 
-/// The ResizeBorders class is responsible for adjusting the size of the game board's borders.
-/// 
-/// </summary>
-public class ResizeBorders : MonoBehaviour
+public class ResizeBackground : MonoBehaviour
 {
     [SerializeField] private GameBoard gameGrid;
+    [SerializeField] private SpriteRenderer sr;
+
     private const float WIDTH_PADDING = 0.35f;
     private const float HEIGHT_PADDING = 0.45f;
 
-    void Awake()
+    private void Awake()
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
+            sr = GetComponent<SpriteRenderer>();
+    }
 
-        float newWidth = gameGrid.levelInfo.grid_width + WIDTH_PADDING;
-        float newHeight = gameGrid.levelInfo.grid_height + HEIGHT_PADDING;
+    private void Start()
+    {
+        // Call Resize after GameBoard has finished its Awake method
+        Resize();
+    }
 
+    public void Resize()
+    {
+        if (gameGrid == null)
+        {
+            Debug.LogWarning("GameGrid is null in ResizeBackground.Resize()");
+            return;
+        }
+
+        // Use the GameBoard's Cols and Rows properties instead of levelInfo directly
+        int gridWidth = gameGrid.Cols;
+        int gridHeight = gameGrid.Rows;
+        
+        Debug.Log($"Grid Width: {gridWidth}, Grid Height: {gridHeight}");
+        
+        float newWidth = gridWidth + WIDTH_PADDING;
+        float newHeight = gridHeight + HEIGHT_PADDING;
+        
+        // Ensure minimum size
+        newWidth = Mathf.Max(newWidth, WIDTH_PADDING);
+        newHeight = Mathf.Max(newHeight, HEIGHT_PADDING);
+        
+        Debug.Log($"Resizing background to: {newWidth} x {newHeight}");
+        
         sr.size = new Vector2(newWidth, newHeight);
     }
 }
