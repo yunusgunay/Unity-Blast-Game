@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public class Singleton<Type> : MonoBehaviour where Type : MonoBehaviour
 {
-    private static T instance;
-    public static T Instance {
+    private static Type instance;
+    public static Type Instance {
         get {
-            if ( instance == null ) { instance = FindAnyObjectByType(typeof(T)) as T; }
+            if ( instance == null ) { instance = FindAnyObjectByType(typeof(Type)) as Type; }
             return instance;
         }
     }

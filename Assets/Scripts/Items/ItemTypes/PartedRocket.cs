@@ -4,17 +4,18 @@ using DG.Tweening;
 
 public class PartedRocket : MonoBehaviour
 {
-    // How long (in seconds) it takes to travel from the first cell to the last cell
-    public float travelTime = 0.5f;
-
+    // How long (in seconds) to traverse the entire path
+    public float travelTime = 0.3f;
+    
     private List<Cell> pathCells = new List<Cell>();
+    
+    private Vector3[] pathPositions;
 
     public void Init(Cell startCell, Direction dir)
     {
-        // 1) Gather all cells in the chosen direction
+        // Gather all cells along the chosen direction
         pathCells.Clear();
         pathCells.Add(startCell);
-
         Cell current = startCell;
         while (true)
         {
@@ -23,55 +24,52 @@ public class PartedRocket : MonoBehaviour
             pathCells.Add(next);
             current = next;
         }
-
-        // If there's only 1 cell (the startCell), nothing to travel
-        if (pathCells.Count <= 1)
+        if (pathCells.Count < 2)
         {
             Destroy(gameObject);
             return;
         }
-
-        // 2) Build an array of positions for DOTween to follow
-        Vector3[] positions = new Vector3[pathCells.Count];
+        // Build an array of positions for DOTween to follow
+        pathPositions = new Vector3[pathCells.Count];
         for (int i = 0; i < pathCells.Count; i++)
         {
-            positions[i] = pathCells[i].transform.position;
+            pathPositions[i] = pathCells[i].transform.position;
         }
-
-        // 3) Move the parted rocket along these positions
-        //    The rocket will begin at the first cell, so place it there initially
-        transform.position = positions[0];
-
-        // 4) Create the path tween
-        transform.DOPath(positions, travelTime, PathType.Linear, PathMode.Full3D)
+        // Place the rocket at the first cell's position
+        transform.position = pathPositions[0];
+        // Start the DOTween path animation
+        transform.DOPath(pathPositions, travelTime, PathType.Linear, PathMode.Full3D)
             .SetEase(Ease.Linear)
-            // OnWaypointChange is called each time we reach a new position in 'positions'
             .OnWaypointChange(OnWaypointChange)
-            // When done traveling, destroy parted rocket
             .OnComplete(() => Destroy(gameObject));
-
-        // 5) Notify rocket manager we spawned a parted rocket
+        // Notify RocketManager that a parted rocket was spawned
         RocketManager.Instance.PartedRocketSpawned();
     }
 
-    // Called each time we pass or arrive at a new waypoint (cell)
+    // Called each time a new waypoint (cell) is reached
     private void OnWaypointChange(int waypointIndex)
     {
         if (waypointIndex < 0 || waypointIndex >= pathCells.Count) return;
 
-        // Attempt to destroy the item in that cell
         Cell cell = pathCells[waypointIndex];
+        // If there's an item, trigger its destruction
         if (cell.item != null)
         {
             cell.item.TryExecute();
+        }
+        // Spawn a star/fog burst effect at this cell
+        if (RocketManager.Instance.fogFXPrefab != null)
+        {
+            Instantiate(RocketManager.Instance.fogFXPrefab,
+                        cell.transform.position,
+                        Quaternion.identity,
+                        cell.gameGrid.particlesParent);
         }
     }
 
     private void OnDestroy()
     {
         if (RocketManager.Instance != null)
-        {
             RocketManager.Instance.PartedRocketFinished();
-        }
     }
 }

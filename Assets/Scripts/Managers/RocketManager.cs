@@ -10,6 +10,7 @@ public class RocketManager : Singleton<RocketManager>
     public GameObject partedRightPrefab; 
     public GameObject partedTopPrefab; 
     public GameObject partedBottomPrefab;
+    public GameObject fogFXPrefab;
 
     private int activePartedRockets = 0;
     public event Action OnAllPartedRocketsFinished;
