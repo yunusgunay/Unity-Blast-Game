@@ -12,5 +12,5 @@ public class ItemBase : MonoBehaviour
     public bool IsFallable = true;
     public bool InterectWithExplode = false;
     public int Health = 1;
-    // public FallAnimation FallAnimation;
+    public FallAnimation FallAnimation;
 }

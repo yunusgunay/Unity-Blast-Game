@@ -21,7 +21,7 @@ public class Item : MonoBehaviour
     public bool IsFallable;
     public int Health;
 
-    // public FallAnimation FallAnimation;
+    public FallAnimation FallAnimation;
     public ParticleSystem Particle;
     private Cell cell;
     public Cell Cell
@@ -54,9 +54,9 @@ public class Item : MonoBehaviour
         Clickable = itemBase.Clickable;
         InterectWithExplode = itemBase.InterectWithExplode;
         IsFallable = itemBase.IsFallable;
-        // FallAnimation = itemBase.FallAnimation;
+        FallAnimation = itemBase.FallAnimation;
         Health = itemBase.Health;
-        // FallAnimation.item = this;
+        FallAnimation.item = this;
     }
 
     public SpriteRenderer AddSprite(Sprite sprite)
@@ -101,6 +101,6 @@ public class Item : MonoBehaviour
     {
         if (!this.IsFallable) return;
 
-        // FallAnimation.FallTo(cell.GetFallTarget());
+        FallAnimation.FallTo(cell.GetFallTarget());
     }
 }

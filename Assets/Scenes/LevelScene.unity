@@ -228,8 +228,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -110, y: 10}
-  m_SizeDelta: {x: 200, y: 175}
+  m_AnchoredPosition: {x: -117, y: 5}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &322337285
 MonoBehaviour:
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 25
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -835,8 +835,9 @@ GameObject:
   - component: {fileID: 810160831}
   - component: {fileID: 810160836}
   - component: {fileID: 810160835}
-  - component: {fileID: 810160830}
   - component: {fileID: 810160834}
+  - component: {fileID: 810160837}
+  - component: {fileID: 810160830}
   - component: {fileID: 810160832}
   - component: {fileID: 810160833}
   m_Layer: 0
@@ -965,14 +966,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4000c1e475b1c243808ab6514edcaae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CubeParticleBlue: {fileID: 0}
-  CubeParticleRed: {fileID: 0}
-  CubeParticleYellow: {fileID: 0}
-  CubeParticleGreen: {fileID: 0}
-  ComboHintParticle: {fileID: 0}
-  BoxParticle: {fileID: 0}
-  StoneParticle: {fileID: 0}
-  VaseParticle: {fileID: 0}
+  CubeParticleBlue: {fileID: 4145130110879139412, guid: a695ec9bb712241eab7753464a740dca, type: 3}
+  CubeParticleRed: {fileID: 5386665437018754473, guid: a6395d5e7c4e34c8091baa85d38e20eb, type: 3}
+  CubeParticleYellow: {fileID: 5386665437018754473, guid: d5f3dc1eb26f247aea6bdf4c806f9f4a, type: 3}
+  CubeParticleGreen: {fileID: 5386665437018754473, guid: 10834826f3a304b22a316e416f7d219e, type: 3}
+  ComboHintParticle: {fileID: 198273935841579388, guid: d1f650ccc6aab064f8ab624c28ebe3cb, type: 3}
+  BoxParticle: {fileID: 5386665437018754473, guid: 0c1cfb71b87114af7a237277d7f398ca, type: 3}
+  StoneParticle: {fileID: 5386665437018754473, guid: a166e82edf3084866984968528ba60c0, type: 3}
+  VaseParticle: {fileID: 5386665437018754473, guid: c0c66f4126ae847a19c674d672d51a64, type: 3}
 --- !u!114 &810160835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +996,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b4b15bc905e6484aafbd1ee40b1a208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 1375860279}
+--- !u!114 &810160837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810160826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9393f987544694d9a1f552c189ba55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1375860279}
@@ -1045,7 +1059,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameGrid: {fileID: 1375860279}
+  fallAndFillManager: {fileID: 810160835}
   goalManager: {fileID: 810160830}
+  movesManager: {fileID: 810160832}
 --- !u!1 &985866331
 GameObject:
   m_ObjectHideFlags: 0

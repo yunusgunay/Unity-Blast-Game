@@ -77,6 +77,7 @@ public class CubeItem : Item
     
     public override void TryExecute()
     {
+        ParticleManager.Instance.PlayParticle(this);
         base.TryExecute();
     }
 }

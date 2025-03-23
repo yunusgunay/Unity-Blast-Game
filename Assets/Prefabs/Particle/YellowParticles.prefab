@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5386665437018754473}
   - component: {fileID: 4935914784210504660}
   m_Layer: 0
-  m_Name: BlueParticles
+  m_Name: YellowParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2723963a737f5974aa8b73e42f0afb43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 2
+  destroyTime: 1
 --- !u!198 &5386665437018754473
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4852,7 +4852,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b9c4ad175aa2b4a94ae5412c9256b0be, type: 2}
+  - {fileID: 2100000, guid: 2f60416d354ee4432bf4dcc805fb8cae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
