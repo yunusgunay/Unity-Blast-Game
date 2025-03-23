@@ -1,7 +1,7 @@
 // This class represents a single BOX in a Cell.
 public class BoxItem: Item {
     public void PrepareBoxItem(ItemBase itemBase) {
-        itemBase.IsFallable = true;
+        itemBase.IsFallable = false;
         itemBase.Health = 1;
         itemBase.InterectWithExplode = true;
         itemBase.Clickable = false;

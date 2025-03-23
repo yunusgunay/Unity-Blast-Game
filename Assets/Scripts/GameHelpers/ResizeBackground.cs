@@ -5,8 +5,8 @@ public class ResizeBackground : MonoBehaviour
     [SerializeField] private GameBoard gameGrid;
     [SerializeField] private SpriteRenderer sr;
 
-    private const float WIDTH_PADDING = 0.35f;
-    private const float HEIGHT_PADDING = 0.45f;
+    private const float WIDTH_PADDING = 0.45f;
+    private const float HEIGHT_PADDING = 0.60f;
 
     private void Awake()
     {

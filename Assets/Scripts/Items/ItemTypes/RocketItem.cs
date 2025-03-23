@@ -29,6 +29,7 @@ public class RocketItem : Item
 
     public override void TryExecute()
     {
+        FallAndFillManager.Instance.StopFall(); // First rocket fly, then cubes fall.
         ExplodeRocket();
         base.TryExecute(); // Removes rocket from the board.
     }
