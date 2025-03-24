@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class LoadingScreen : MonoBehaviour
 {
-    public TextMeshProUGUI loadingText;
+    [SerializeField] private TextMeshProUGUI loadingText;
 
     public void SetProgress(float progress)
     {

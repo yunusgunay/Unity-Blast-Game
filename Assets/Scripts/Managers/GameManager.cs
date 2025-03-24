@@ -51,4 +51,11 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(0.5f);
         loadingScreen.gameObject.SetActive(false);
     }
+
+    public void RestartGame()
+    {
+        PlayerPrefs.SetInt("Level", 1);
+        LoadMainMenu();
+    }
+
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameBoard gameGrid;
-    [SerializeField] private FallAndFillManager fallAndFillManager;
+    // [SerializeField] private FallAndFillManager fallAndFillManager;
     [SerializeField] private GoalManager goalManager;
     [SerializeField] private MovesManager movesManager;
     private LevelData levelData;
@@ -46,8 +46,8 @@ public class LevelManager : MonoBehaviour
 
     public static LevelInterface getLevelInfo(int level)
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_" + level.ToString("00"));
-        // TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_04");
+        // TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_" + level.ToString("00"));
+        TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_01");
         string jsonString = jsonFile.text;
         return JsonUtility.FromJson<LevelInterface>(jsonString);
     }

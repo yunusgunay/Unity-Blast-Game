@@ -9,11 +9,11 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
     public ParticleSystem CubeParticleGreen;
 
     [Header("ObstacleParticles")]
-    public ParticleSystem BoxParticle;
+    public ParticleSystem BoxParticle1;
+    public ParticleSystem BoxParticle2;
+    public ParticleSystem BoxParticle3;
     public ParticleSystem StoneParticle;
     public ParticleSystem VaseParticle;
-
-    public ParticleSystem ComboHintParticle;
 
     public void PlayParticle(Item item) {
         ParticleSystem particle;
@@ -35,7 +35,15 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
         }
 
         else if (item.ItemType == ItemType.Box) {
-            particle = BoxParticle;
+            Vector3 spawnPos = item.transform.position + new Vector3(0, 0, -0.1f);
+            Transform parent = item.Cell.gameGrid.particlesParent;
+            ParticleSystem p1 = Instantiate(BoxParticle1, spawnPos, Quaternion.identity, parent);
+            ParticleSystem p2 = Instantiate(BoxParticle2, spawnPos, Quaternion.identity, parent);
+            ParticleSystem p3 = Instantiate(BoxParticle3, spawnPos, Quaternion.identity, parent);
+            p1.Play();
+            p2.Play();
+            p3.Play();
+            return; 
         }
 
         else if (item.ItemType == ItemType.Stone) {
@@ -47,20 +55,8 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
         }
 
         Vector3 newton = item.transform.position + new Vector3(0, 0, -0.1f);
-        var particleNew = Instantiate(particle, newton, Quaternion.identity, item.Cell.gameGrid.particlesParent);
+        ParticleSystem particleNew = Instantiate(particle, newton, Quaternion.identity, item.Cell.gameGrid.particlesParent);
         particleNew.Play();
-    }
-
-    public ParticleSystem PlayComboParticleOnItem(Item item) {
-        var particle = Instantiate(ComboHintParticle, item.transform.position, Quaternion.identity, item.transform);
-        particle.Play(true);
-        return particle;
-    }
-
-    public void ParticleDestroyer(Item item) {
-        if (item.Particle != null) {
-            Destroy(item.Particle.gameObject);
-        }
     }
 
 }

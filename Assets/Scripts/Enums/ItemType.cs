@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
 public enum ItemType {
     None,
     

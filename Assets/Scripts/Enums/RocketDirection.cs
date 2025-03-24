@@ -1,5 +1,4 @@
-public enum RocketDirection
-{
+public enum RocketDirection {
     Horizontal,
     Vertical
 }

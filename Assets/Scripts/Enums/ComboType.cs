@@ -1,5 +1,4 @@
-[System.Serializable]
-public enum ComboType{
+public enum ComboType {
     None,
     Rocket,
 }
