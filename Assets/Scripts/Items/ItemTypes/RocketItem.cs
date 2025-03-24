@@ -8,7 +8,7 @@ public class RocketItem : Item
     {
         rocketDirection = direction;
         itemBase.IsFallable = true;
-        itemBase.InterectWithExplode = true;
+        itemBase.InterectWithExplode = false;
         itemBase.Clickable = true;
 
         switch(direction)

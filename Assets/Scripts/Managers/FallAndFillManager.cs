@@ -5,7 +5,7 @@ public class FallAndFillManager : Singleton<FallAndFillManager>
 {
     private bool isActive;
     private GameBoard board;
-    private LevelData levelData;
+    public LevelData levelData;
     private Cell[] fillingCells;
 
     public void Init(GameBoard board, LevelData levelData)

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4737829316635256}
   - component: {fileID: 226444977525113480}
-  - component: {fileID: 5386665437018754473}
-  - component: {fileID: 4935914784210504660}
+  - component: {fileID: 4145130110879139412}
+  - component: {fileID: 134807144832185157}
   m_Layer: 0
-  m_Name: StoneParticles
+  m_Name: StoneParticle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 1
---- !u!198 &5386665437018754473
+--- !u!198 &4145130110879139412
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +55,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128657695693916}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -130,7 +130,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -184,7 +184,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       scalar: 10
-      minScalar: 1
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -994,7 +994,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 3
+        scalar: 1
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1045,7 +1045,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
       cycleCount: 1
-      repeatInterval: 1
+      repeatInterval: 0.01
       probability: 1
   SizeModule:
     enabled: 0
@@ -1440,15 +1440,15 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 1
-    mode: 1
+    enabled: 0
+    mode: 0
     timeMode: 0
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 1
       scalar: 0.9999
-      minScalar: 0
+      minScalar: 0.9999
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1559,9 +1559,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -1706894408, guid: 29877ad52ce764f9d8f59874ec3dc7f4, type: 3}
-    - sprite: {fileID: 1382885987, guid: 29877ad52ce764f9d8f59874ec3dc7f4, type: 3}
-    - sprite: {fileID: -1014403293, guid: 29877ad52ce764f9d8f59874ec3dc7f4, type: 3}
+    - sprite: {fileID: 0}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4830,7 +4828,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &4935914784210504660
+--- !u!199 &134807144832185157
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -4854,7 +4852,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b36fb0f74534543f6a3b2d32f7ea5f57, type: 2}
+  - {fileID: 2100000, guid: 73c9991a7afc9774cbd904e0d3e8f657, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

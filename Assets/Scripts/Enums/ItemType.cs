@@ -3,19 +3,19 @@ using UnityEngine;
 public enum ItemType {
     None,
     
-    [Header("Cubes")]
+    [Header("Cube Types")]
     BlueCube,
     GreenCube,
     RedCube,
     YellowCube,
 
-    [Header("Obstacles")]
+    [Header("Obstacle Types")]
     Box,
     Stone,
     Vase01,
     Vase02,
 
-    [Header("Rockets")]
+    [Header("Rocket Types")]
     HorizontalRocket,
     VerticalRocket
 }

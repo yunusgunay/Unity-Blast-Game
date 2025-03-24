@@ -1,50 +1,66 @@
 using UnityEngine;
 using DG.Tweening;
 
-/// <summary>
-/// 
-/// The FallAnimation class is responsible for managing the fall animation of an Item.
-/// It contains methods to validate the target cell, update the target cell, and animate the fall.
-/// 
-/// </summary>
-public class FallAnimation : MonoBehaviour
-{
+public class FallAnimation : MonoBehaviour {
     public Item item;
-    [HideInInspector] public Cell targetCell;
-
-    [SerializeField] private const float ANIMATION_DURATION = 0.35f;
+    private const float fallDuration = 0.35f; // Time to complete the fall tween.
+    private bool applyHorizontalOffset = true; // If true, add a slight random X offset.
+    private Cell destinationCell;
     
-    private Vector3 targetPosition;
-
-    public void Awake()
+    private void Start()
     {
         DOTween.SetTweensCapacity(500, 50);
     }
 
-    public void FallTo(Cell targetCell)
+    public void TryFall(Cell newCell)
     {
-        if (IsInvalidTargetCell(targetCell)) return;
+        // 1) Validate the new cell to ensure it's a valid downward move.
+        if (ShouldAbortFall(newCell)) return;
 
-        UpdateTargetCell(targetCell);
-        AnimateFall();
+        // 2) Assign the item to that new cell and store the cell reference.
+        UpdateDestinationCell(newCell);
+
+        // 3) Perform the actual fall animation.
+        PerformFallTween();
     }
 
-    private bool IsInvalidTargetCell(Cell targetCell)
+    private bool ShouldAbortFall(Cell newCell)
     {
-        return this.targetCell != null && targetCell.Y >= this.targetCell.Y;
+        if (destinationCell != null && newCell.Y >= destinationCell.Y)
+            return true;
+        
+        return false;
     }
 
-    private void UpdateTargetCell(Cell targetCell)
+
+    private void UpdateDestinationCell(Cell newCell)
     {
-        this.targetCell = targetCell;
-        item.Cell = this.targetCell;
-        targetPosition = this.targetCell.transform.position;
+        destinationCell = newCell;
+        item.Cell = destinationCell;
     }
 
-    private void AnimateFall()
+    /// <summary>
+    /// Executes the DOTween animation to move the item to the new cell's position.
+    /// Adds a small bounce and optional random X offset for visual variety.
+    /// </summary>
+    private void PerformFallTween()
     {
-        item.transform.DOMoveY(targetPosition.y, ANIMATION_DURATION)
-            .SetEase(Ease.InCubic)
-            .OnComplete(() => targetCell = null);
+        if (destinationCell == null) return;
+        
+        Vector3 endPos = destinationCell.transform.position;
+
+        // Optional slight horizontal offset to make falls look less uniform.
+        if (applyHorizontalOffset)
+        {
+            float randomOffset = Random.Range(-0.05f, 0.05f);
+            endPos.x += randomOffset;
+        }
+
+        item.transform.DOMove(endPos, fallDuration)
+            .SetEase(Ease.OutQuad) // Adds a small bounce at the end
+            .OnComplete(() =>
+            {
+                destinationCell = null;
+            });
     }
 }

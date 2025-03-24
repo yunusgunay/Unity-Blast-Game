@@ -753,8 +753,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279864023
-  m_fontColor: {r: 0.8431373, g: 0.5411765, b: 0.098039225, a: 1}
+    rgba: 4290047999
+  m_fontColor: {r: 1, g: 0.93725497, b: 0.7058824, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -10
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1875,6 +1875,7 @@ GameObject:
   - component: {fileID: 810160833}
   - component: {fileID: 810160838}
   - component: {fileID: 810160839}
+  - component: {fileID: 810160840}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1919,8 +1920,8 @@ MonoBehaviour:
   YellowCubeParticle: {fileID: 21300000, guid: 3c4e720ab15a00d4c8875dd113737b24, type: 3}
   Box: {fileID: 21300000, guid: 27bfdbb4c51a7a6468109bce6741a343, type: 3}
   Stone: {fileID: 21300000, guid: 5e888fc7863be1844bbb353c7b5e3e11, type: 3}
-  Vase01: {fileID: 21300000, guid: 172946759c0d1aa4a9d28bc907bb6835, type: 3}
-  Vase02: {fileID: 21300000, guid: 9962e0aa97cd8384984863446e6943fc, type: 3}
+  Vase01: {fileID: 21300000, guid: 9962e0aa97cd8384984863446e6943fc, type: 3}
+  Vase02: {fileID: 21300000, guid: 172946759c0d1aa4a9d28bc907bb6835, type: 3}
   HorizontalRocket: {fileID: 21300000, guid: 9a2fcc974aa173a4cad902e60fd1edc2, type: 3}
   VerticalRocket: {fileID: 21300000, guid: f6f26cce86e51d34b89b4cc35f632667, type: 3}
 --- !u!114 &810160829
@@ -2008,8 +2009,12 @@ MonoBehaviour:
   BoxParticle1: {fileID: 4145130110879139412, guid: f5126f3e14150a64cad7d5f601836b12, type: 3}
   BoxParticle2: {fileID: 4145130110879139412, guid: abed16443e3a4894e96c989d8934e247, type: 3}
   BoxParticle3: {fileID: 4145130110879139412, guid: 800193cca32798649b7f80b2ace5b337, type: 3}
-  StoneParticle: {fileID: 5386665437018754473, guid: a166e82edf3084866984968528ba60c0, type: 3}
-  VaseParticle: {fileID: 5386665437018754473, guid: c0c66f4126ae847a19c674d672d51a64, type: 3}
+  StoneParticle1: {fileID: 4145130110879139412, guid: 553b57058e2864e42b91b1d2a38699ae, type: 3}
+  StoneParticle2: {fileID: 4145130110879139412, guid: 6696c18699dd188488494d6316446eb3, type: 3}
+  StoneParticle3: {fileID: 4145130110879139412, guid: 93e636c23f00fab44a759b4269b617c3, type: 3}
+  VaseParticle1: {fileID: 4145130110879139412, guid: 8ab0927231c45f84b8e09f1de8b1e8b0, type: 3}
+  VaseParticle2: {fileID: 4145130110879139412, guid: 3c271db1793599e41b87b4f0fd437ed5, type: 3}
+  VaseParticle3: {fileID: 4145130110879139412, guid: 7fe510e95f8e447428bf3512c179185b, type: 3}
 --- !u!114 &810160835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2063,6 +2068,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fdb7e8edb4187a44864e436eb3cfb4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 1375860279}
+--- !u!114 &810160840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810160826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16886ddda0e829f46a717e99ab7b4e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1375860279}

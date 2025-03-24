@@ -100,6 +100,6 @@ public class Item : MonoBehaviour
     {
         if (!this.IsFallable) return;
 
-        FallAnimation.FallTo(cell.GetFallTarget());
+        FallAnimation.TryFall(cell.GetFallTarget());
     }
 }

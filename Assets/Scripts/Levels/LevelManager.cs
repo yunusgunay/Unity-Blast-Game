@@ -46,8 +46,8 @@ public class LevelManager : MonoBehaviour
 
     public static LevelInterface getLevelInfo(int level)
     {
-        // TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_" + level.ToString("00"));
-        TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_01");
+        TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_" + level.ToString("00"));
+        // TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_07");
         string jsonString = jsonFile.text;
         return JsonUtility.FromJson<LevelInterface>(jsonString);
     }
