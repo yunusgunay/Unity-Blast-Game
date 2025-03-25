@@ -12,11 +12,7 @@ public class GameManager : Singleton<GameManager> {
         int lvl = PlayerPrefs.GetInt("Level", 1);
         PlayerPrefs.SetInt("Level", lvl + 1);
         
-        if (lvl >= 10) {
-            await TransitionToScene("MenuScene");
-        } else {
-            await TransitionToScene("LevelScene");
-        }
+        await TransitionToScene("MenuScene");
     }
 
     public async void LoadLevelScene() {
