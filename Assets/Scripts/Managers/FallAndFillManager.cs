@@ -59,10 +59,10 @@ public class FallAndFillManager : MonoBehaviour {
             Cell cell = fillingCells[i];
 
             if (cell.item == null) {
-                // Create a new random cube item
-                cell.item = ItemFactory.Instance.CreateItem(LevelGridData.GetRandomCubeItemType(), board.itemsParent);
+                // Create a new random cube item.
+                cell.item = ItemCreator.Instance.CreateItem(LevelGridData.GetRandomCubeItemType(), board.itemsParent);
 
-                // Calculate an initial spawn position (above the cell)
+                // Calculate an initial spawn position (above the cell).
                 float offsetY = 0.0f;
                 Cell targetCellBelow = cell.FindFallTarget().cellBelow;
                 if (targetCellBelow != null && targetCellBelow.item != null) {

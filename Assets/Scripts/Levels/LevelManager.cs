@@ -1,53 +1,81 @@
 using UnityEngine;
-/// <summary>
-/// The LevelManager class is responsible for managing the game level. It initializes the game grid, fall and fill manager, moves manager, and goal manager.
-/// It also prepares the level by creating items for each cell in the game grid based on the level data.
-/// </summary>
-public class LevelManager : MonoBehaviour
-{
-    [SerializeField] private GameBoard gameGrid;
+
+public class LevelManager : MonoBehaviour {
+    [SerializeField] private GameBoard gameBoard;
     [SerializeField] private GoalManager goalManager;
     [SerializeField] private MovesTracker movesManager;
     private LevelGridData levelData;
 
-    private void Start()
-    {
-        PrepareLevel();
-        InitFallAndFills();
+    private void Start() {
+        if (!CheckRequiredComponents()) { return; }
+
+        InitLevel();
+        InitCubesFall();
+        
         movesManager.Init(levelData.Moves);
         goalManager.InitGoal(levelData.Goals);
-
     }
 
-    private void PrepareLevel()
-    {
-        levelData = new LevelGridData(gameGrid.levelInfo);
+    private bool CheckRequiredComponents() {
+        if (gameBoard == null) {
+            Debug.LogError("GameBoard is not assigned to LevelManager.");
+            return false;
+        }
 
-        for (int i = 0; i < gameGrid.levelInfo.grid_height; ++i)
-            for (int j = 0; j < gameGrid.levelInfo.grid_width; ++j)
-            {
-                var cell = gameGrid.Cells[j, i];
+        if (goalManager == null) {
+            Debug.LogError("GoalManager is not assigned to LevelManager.");
+            return false;
+        }
 
-                var itemType = levelData.GridData[gameGrid.levelInfo.grid_height - i-1 , j];
-                var item = ItemFactory.Instance.CreateItem(itemType, gameGrid.itemsParent);
-                if (item == null) continue;
+        if (movesManager == null) {
+            Debug.LogError("MovesTracker is not assigned to LevelManager.");
+            return false;
+        }
 
-                cell.item = item;
-                item.transform.position = cell.transform.position;
+        return true;
+    }
 
+    private void InitLevel() {
+        levelData = new LevelGridData(gameBoard.levelInfo);
+
+        for (int i = 0; i < gameBoard.levelInfo.grid_height; ++i) {
+            for (int j = 0; j < gameBoard.levelInfo.grid_width; ++j) {
+                CreateItemForCell(i, j);
             }
+        }
     }
 
-    private void InitFallAndFills()
-    {
-        FallAndFillManager.Instance.Init(gameGrid, levelData);
+    private void CreateItemForCell(int row, int col) {
+        Cell currCell = gameBoard.Cells[col, row];
+        ITEM_TYPE itemType = levelData.GridData[gameBoard.levelInfo.grid_height - row - 1, col];
+        Item item = ItemCreator.Instance.CreateItem(itemType, gameBoard.itemsParent);
+
+        if (item == null) { return; }
+
+        currCell.item = item;
+        item.transform.position = currCell.transform.position;
     }
 
-    public static LevelInterface getLevelInfo(int level)
-    {
-        TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_" + level.ToString("00"));
-        // TextAsset jsonFile = Resources.Load<TextAsset>("Levels/level_07");
+    private void InitCubesFall() {
+        FallAndFillManager.Instance.Init(gameBoard, levelData);
+    }
+
+    // JSON Level Logic
+    public static LevelInterface GetLevelInfo(int level) {
+        string path = "Levels/level_" + level.ToString("00");
+        TextAsset jsonFile = Resources.Load<TextAsset>(path);
+
+        if (jsonFile == null) {
+            Debug.LogError($"Level file not found at path: {path}");
+            return null;
+        }
+
         string jsonString = jsonFile.text;
+        if (string.IsNullOrEmpty(jsonString)) {
+            Debug.LogError($"Level file is empty at path: {path}");
+            return null;
+        }
+
         return JsonUtility.FromJson<LevelInterface>(jsonString);
     }
 

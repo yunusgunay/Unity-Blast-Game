@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  targetCell: {fileID: 0}
 --- !u!114 &1901498769810725779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,9 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9154caccf94daee46a7adec4c367a9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemType: 0
-  Clickable: 1
+  Type: 0
+  IsClickable: 1
   IsFallable: 1
-  InterectWithExplode: 0
+  CanExplode: 0
   Health: 1
   FallAnimation: {fileID: -4825521337049420817}

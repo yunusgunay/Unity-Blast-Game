@@ -6,7 +6,7 @@ public class StoneItem : Item {
         itemBase.CanExplode = false;
         itemBase.Health = 1;
         
-        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));      
+        PrepareItem(itemBase, ImageConverter.Instance.getImage(itemBase.Type));      
     }
 
     public override void TryExecute() {

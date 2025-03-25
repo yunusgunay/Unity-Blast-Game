@@ -40,7 +40,7 @@ public class GroupChecker : Singleton<GroupChecker> {
             Cell curr = q.Dequeue();
             result.Add(curr);
 
-            if (!curr.item.Clickable) { continue; }
+            if (!curr.item.IsClickable) { continue; }
 
             for (int i = 0; i < curr.adjacentCells.Count; ++i) {
                 Cell neighbor = curr.adjacentCells[i];
@@ -58,7 +58,7 @@ public class GroupChecker : Singleton<GroupChecker> {
     public int CountGroupCubes(List<Cell> group) {
         int count = 0;
         for (int i = 0; i < group.Count; ++i) {
-            if (group[i].item.Clickable) { // only cubes are clickable
+            if (group[i].item.IsClickable) { // only cubes are clickable
                 count++;
             }
         }
@@ -91,7 +91,7 @@ public class GroupChecker : Singleton<GroupChecker> {
             Cell nb = exploded.adjacentCells[i];
             if (nb.item != null && !used.Contains(nb)) {
                 used.Add(nb);
-                if (nb.item.InterectWithExplode == true) { nb.item.TryExecute(); }
+                if (nb.item.CanExplode == true) { nb.item.TryExecute(); }
             }
         }
     }
@@ -103,7 +103,7 @@ public class GroupChecker : Singleton<GroupChecker> {
         ROCKET_DIRECTION randomDir = (Random.Range(0, 2) == 0) ? ROCKET_DIRECTION.Horizontal : ROCKET_DIRECTION.Vertical;
         ITEM_TYPE rocketType = (randomDir == ROCKET_DIRECTION.Horizontal) ? ITEM_TYPE.HorizontalRocket : ITEM_TYPE.VerticalRocket;
         
-        cell.item = ItemFactory.Instance.CreateItem(rocketType, board.itemsParent);
+        cell.item = ItemCreator.Instance.CreateItem(rocketType, board.itemsParent);
         if (cell.item != null) {
             cell.item.transform.position = cell.transform.position;
         }

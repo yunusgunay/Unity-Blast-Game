@@ -19,12 +19,14 @@ public class Cell : MonoBehaviour {
     public Item item {
         get => currItem;
         set {
-            if (currItem == value) return;
-            if (currItem != null && ReferenceEquals(currItem.Cell, this))
+            if (currItem == value) { return; }
+            if (currItem != null && ReferenceEquals(currItem.Cell, this)) {
                 currItem.Cell = null;
+            }
             currItem = value;
-            if (currItem != null)
+            if (currItem != null) {
                 currItem.Cell = this;
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public class VaseItem : Item {
             itemBase.Health = 2; // ITEM_TYPE.Vase02
         }
 
-        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));
+        PrepareItem(itemBase, ImageConverter.Instance.getImage(itemBase.Type));
     }
 
     public override void TryExecute() {

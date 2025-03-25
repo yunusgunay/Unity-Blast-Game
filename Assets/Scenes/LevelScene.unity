@@ -1964,7 +1964,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 491579511}
-  board: {fileID: 1375860279}
 --- !u!114 &810160832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,7 +2204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0a5bd818f3a4849b2084be4e0844bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameGrid: {fileID: 1375860279}
+  gameBoard: {fileID: 1375860279}
   goalManager: {fileID: 810160830}
   movesManager: {fileID: 810160832}
 --- !u!1 &876791781

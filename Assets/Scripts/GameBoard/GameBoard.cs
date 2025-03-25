@@ -25,7 +25,7 @@ public class GameBoard : MonoBehaviour {
     // Loads level data and sets board size.
     private void RetrieveLevelData() {
         int currentLevel = PlayerPrefs.GetInt("Level", 1);
-        levelInfo = LevelManager.getLevelInfo(currentLevel);
+        levelInfo = LevelManager.GetLevelInfo(currentLevel);
 
         boardRows = levelInfo.grid_height;
         boardCols = levelInfo.grid_width;

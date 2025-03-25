@@ -8,26 +8,26 @@ public class CubeItem : Item {
         this.matchType = matchType;
         itemBase.IsClickable = true;
         
-        Prepare(itemBase, GetSpriteForColor());
+        PrepareItem(itemBase, GetSpriteForColor());
     }
 
     private Sprite GetSpriteForColor() {
-        ImageConverter imageLibrary = ImageConverter.Instance;
+        ImageConverter imageConverter = ImageConverter.Instance;
         
         if (matchType == MATCH_TYPE.Blue) {
-            return imageLibrary.BlueCube;
+            return imageConverter.BlueCube;
         }
 
         if (matchType == MATCH_TYPE.Green) {
-            return imageLibrary.GreenCube;
+            return imageConverter.GreenCube;
         }
 
         if (matchType == MATCH_TYPE.Red) {
-            return imageLibrary.RedCube;
+            return imageConverter.RedCube;
         }
 
         if (matchType == MATCH_TYPE.Yellow) {
-            return imageLibrary.YellowCube;
+            return imageConverter.YellowCube;
         }
 
         return null;
@@ -38,14 +38,14 @@ public class CubeItem : Item {
     }
     
     public override void UpdateToHintSprite(ITEM_TYPE itemType) {
-        ImageConverter imageLibrary = ImageConverter.Instance;
+        ImageConverter imageConverter = ImageConverter.Instance;
 
         switch (itemType) {
             case ITEM_TYPE.HorizontalRocket:
-                UpdateRocketSprite(imageLibrary);
+                UpdateRocketSprite(imageConverter);
                 break;
             case ITEM_TYPE.VerticalRocket:
-                UpdateRocketSprite(imageLibrary);
+                UpdateRocketSprite(imageConverter);
                 break;
             default:
                 UpdateSprite(GetSpriteForColor());
@@ -53,20 +53,20 @@ public class CubeItem : Item {
         }
     }
 
-    private void UpdateRocketSprite(ImageConverter imageLibrary) {
+    private void UpdateRocketSprite(ImageConverter imageConverter) {
         Sprite newSprite;
         switch (matchType) {
             case MATCH_TYPE.Green:
-                newSprite = imageLibrary.GreenCubeParticle;
+                newSprite = imageConverter.GreenCubeParticle;
                 break;
             case MATCH_TYPE.Yellow:
-                newSprite = imageLibrary.YellowCubeParticle;
+                newSprite = imageConverter.YellowCubeParticle;
                 break;
             case MATCH_TYPE.Blue:
-                newSprite = imageLibrary.BlueCubeParticle;
+                newSprite = imageConverter.BlueCubeParticle;
                 break;
             case MATCH_TYPE.Red:
-                newSprite = imageLibrary.RedCubeParticle;
+                newSprite = imageConverter.RedCubeParticle;
                 break;
             default:
                 return;

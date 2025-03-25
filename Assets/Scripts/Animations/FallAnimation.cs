@@ -3,7 +3,7 @@ using DG.Tweening;
 
 // FallAnimation manages cubes' fall animation to empty/destroyed cells.
 public class FallAnimation : MonoBehaviour {
-    public Item item;
+    [HideInInspector] public Item item;
     private const float FALL_DURATION = 0.30f;
     private Cell destinationCell;
     

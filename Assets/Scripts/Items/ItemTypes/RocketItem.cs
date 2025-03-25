@@ -12,10 +12,10 @@ public class RocketItem : Item {
 
         switch (direction) {
             case ROCKET_DIRECTION.Horizontal:
-                Prepare(itemBase, ImageConverter.Instance.HorizontalRocket);
+                PrepareItem(itemBase, ImageConverter.Instance.HorizontalRocket);
                 break;
             case ROCKET_DIRECTION.Vertical:
-                Prepare(itemBase, ImageConverter.Instance.VerticalRocket);
+                PrepareItem(itemBase, ImageConverter.Instance.VerticalRocket);
                 break;
         }
     }

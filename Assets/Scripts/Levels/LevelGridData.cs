@@ -7,82 +7,85 @@ public class LevelGridData {
     public List<GoalData> Goals { get; protected set; }
     public int Moves { get; protected set; }
 
-    public LevelGridData(LevelInterface levelInfo)
-    {
-        // Count obstacles for goal data
+    public LevelGridData(LevelInterface levelInfo) {
+        // Counters for  obstacles used in goal data of a level.
         int numberOfBoxes = 0;
         int numberOfStones = 0;
         int numberOfVases = 0;
 
-        // Set the grid data
+        // Initialize grid data array.
         GridData = new ITEM_TYPE[levelInfo.grid_height, levelInfo.grid_width];
 
         int gridIndex = 0;
-        for (int i = levelInfo.grid_height - 1; i >= 0; --i)
-            for (int j = 0; j < levelInfo.grid_width; ++j)
-            {
-                switch (levelInfo.grid[gridIndex++])
-                {
-                    // Obstacles
-                    case "bo": // Box
-                        GridData[i, j] = ITEM_TYPE.Box;
-                        ++numberOfBoxes;
-                        break;
-                    case "s": // Stone
-                        GridData[i, j] = ITEM_TYPE.Stone;
-                        ++numberOfStones;
-                        break;
-                    case "v": // Vase
-                        GridData[i, j] = ITEM_TYPE.Vase02;
-                        ++numberOfVases;
-                        break;
-                    
-                    // Cubes
-                    case "b": // Blue
-                        GridData[i, j] = ITEM_TYPE.BlueCube;
-                        break;
-                    case "g": // Green
-                        GridData[i, j] = ITEM_TYPE.GreenCube;
-                        break;
-                    case "r": // Red
-                        GridData[i, j] = ITEM_TYPE.RedCube;
-                        break;
-                    case "y": // Yellow
-                        GridData[i, j] = ITEM_TYPE.YellowCube;
-                        break;
-                    
-                    // Random
-                    case "rand": 
-                        GridData[i, j] = ((ITEM_TYPE[]) Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)];
-                        break;
-
-                    // Rockets
-                    case "hro": // Horizontal Rocket
-                        GridData[i, j] = ITEM_TYPE.HorizontalRocket;
-                        break;
-                    case "vro": // Vertical Rocket
-                        GridData[i, j] = ITEM_TYPE.VerticalRocket;
-                        break;
-                    
-                    default:
-                        GridData[i, j] = ((ITEM_TYPE[])Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)];
-                        break;
-                }
+        for (int i = levelInfo.grid_height - 1; i >= 0; --i) {
+            for (int j = 0; j < levelInfo.grid_width; ++j) {
+                string cell = levelInfo.grid[gridIndex++];
+                GridData[i, j] = ParseGridCell(cell, ref numberOfBoxes, ref numberOfStones, ref numberOfVases);
             }
+        }
 
-        // Set the goals data
         Goals = new List<GoalData>();
-        if (numberOfBoxes != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Box, RequiredCount = numberOfBoxes });
-        if (numberOfStones != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Stone, RequiredCount = numberOfStones });
-        if (numberOfVases != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Vase02, RequiredCount = numberOfVases });
+        if (numberOfBoxes > 0) {
+            Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Box, RequiredCount = numberOfBoxes });
+        }
+        if (numberOfStones > 0) {
+            Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Stone, RequiredCount = numberOfStones });
+        }
+        if (numberOfVases > 0) {
+            Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Vase02, RequiredCount = numberOfVases });
+        }
 
-        // Set moves
+        // Set moves.
         Moves = levelInfo.move_count;
     }
 
-    public static ITEM_TYPE GetRandomCubeItemType()
-    {
-        return ((ITEM_TYPE[])Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)]; // 1,5 represents number of blocks
+    private ITEM_TYPE ParseGridCell(string cell, ref int numberOfBoxes, ref int numberOfStones, ref int numberOfVases) {
+        // Check for obstacles
+        if (cell == "bo") {
+            numberOfBoxes++;
+            return ITEM_TYPE.Box;
+        }
+        if (cell == "s") {
+            numberOfStones++;
+            return ITEM_TYPE.Stone;
+        }
+        if (cell == "v") {
+            numberOfVases++;
+            return ITEM_TYPE.Vase02;
+        }
+
+        // Check for cubes
+        if (cell == "b") {
+            return ITEM_TYPE.BlueCube;
+        }
+        if (cell == "g") {
+            return ITEM_TYPE.GreenCube;
+        }
+        if (cell == "r") {
+            return ITEM_TYPE.RedCube;
+        }
+        if (cell == "y") {
+            return ITEM_TYPE.YellowCube;
+        }
+        if (cell == "rand") {
+            return GetRandomCubeItemType();
+        }
+
+        // Check for rockets
+        if (cell == "hro") {
+            return ITEM_TYPE.HorizontalRocket;
+        }
+        if (cell == "vro") {
+            return ITEM_TYPE.VerticalRocket;
+        }
+
+        // Default
+        return GetRandomCubeItemType();
+    }
+
+    public static ITEM_TYPE GetRandomCubeItemType() {
+        return ((ITEM_TYPE[])Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)];
     }
 
 }
+        

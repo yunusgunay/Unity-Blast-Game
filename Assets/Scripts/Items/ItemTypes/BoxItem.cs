@@ -6,7 +6,7 @@ public class BoxItem: Item {
         itemBase.CanExplode = true;        
         itemBase.Health = 1;
         
-        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));
+        PrepareItem(itemBase, ImageConverter.Instance.getImage(itemBase.Type));
     }
 
     public override void TryExecute() {
