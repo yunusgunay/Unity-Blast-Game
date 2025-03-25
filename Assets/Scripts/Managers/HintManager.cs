@@ -2,156 +2,116 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-/// <summary>
-/// HintManager handles two types of hints:
-/// 1) BFS-based matching hints for cubes.
-/// 2) Rocket adjacency hints, where any two adjacent rockets continuously shake.
-/// </summary>
-public class HintManager : MonoBehaviour
-{
-    [SerializeField] private GameBoard board;
+/* HintManager handles two types of hints:
+    1) BFS-based matching hints for cubes.
+    2) Rocket adjacency hints, where any two adjacent rockets continuously shake (DOTween Animation).
+*/
+public class HintManager : MonoBehaviour {
+    [SerializeField] private GameBoard gameBoard;
 
-    // For BFS-based matching logic.
-    private void Update()
-    {
+    private void Update() {
         showHints();
         showRocketAdjacencyHints();
     }
 
-    // ---------------------------------------------------------------------
-    // PART A: Your existing BFS-based matching hints for cubes
-    // ---------------------------------------------------------------------
-    private void showHints()
-    {
+    private void showHints() {
         var visitedCells = new HashSet<Cell>();
         var queue = new Queue<Cell>();
 
-        for (int y = 0; y < board.boardRows; ++y)
-        {
-            for (int x = 0; x < board.boardCols; ++x)
-            {
-                var cell = board.Cells[x, y];
-                if (cell.item == null || visitedCells.Contains(cell))
+        for (int y = 0; y < gameBoard.boardRows; ++y) {
+            for (int x = 0; x < gameBoard.boardCols; ++x) {
+                var cell = gameBoard.Cells[x, y];
+                if (cell.item == null || visitedCells.Contains(cell)) {
                     continue;
+                }
 
                 queue.Enqueue(cell);
                 visitedCells.Add(cell);
 
-                while (queue.Count > 0)
-                {
+                while (queue.Count > 0) {
                     var currCell = queue.Dequeue();
                     var matchedCells = MatchingManager.Instance.FindMatches(currCell, currCell.item.GetMatchType());
                     var matchedCubeCount = MatchingManager.Instance.CountMatchedCubeItem(matchedCells);
 
                     // Mark matched cells as visited
-                    foreach (var matchedCell in matchedCells)
-                    {
-                        if (!visitedCells.Contains(matchedCell))
-                        {
+                    foreach (var matchedCell in matchedCells) {
+                        if (!visitedCells.Contains(matchedCell)) {
                             visitedCells.Add(matchedCell);
                             queue.Enqueue(matchedCell);
                         }
                     }
 
                     // Update hints for each matched cell
-                    for (int i = 0; i < matchedCubeCount && i < matchedCells.Count; ++i)
-                    {
+                    for (int i = 0; i < matchedCubeCount && i < matchedCells.Count; ++i) {
                         var currItem = matchedCells[i].item;
-                        spriteUpdate(currItem, matchedCubeCount);
+                        SpriteUpdate(currItem, matchedCubeCount);
                     }
                 }
             }
         }
     }
 
-    private void spriteUpdate(Item item, int matchedCount)
-    {
-        if (matchedCount >= 4)
-        {
+    private void SpriteUpdate(Item item, int matchedCount) {
+        if (matchedCount >= 4) {
             item.UpdateToHintSprite(ITEM_TYPE.HorizontalRocket);
-        }
-        else
-        {
-            item.UpdateToHintSprite(item.ItemType);
-        }
+            return;
+        } 
+        
+        item.UpdateToHintSprite(item.ItemType);
     }
 
-    // ---------------------------------------------------------------------
-    // PART B: Rocket adjacency + continuous shaking
-    // ---------------------------------------------------------------------
-
-    // We store which rockets are "active" in adjacency (scaled up)...
     private HashSet<Item> scaledUpRockets = new HashSet<Item>();
-    // ...and also a dictionary from rocket => its shake tween, so we can kill it.
     private Dictionary<Item, Tween> rocketShakeTweens = new Dictionary<Item, Tween>();
+    private void showRocketAdjacencyHints() {
+        if (gameBoard == null) { return; }
 
-    private void showRocketAdjacencyHints()
-    {
-        if (board == null) return;
-
-        // This set will store all rockets that have a rocket neighbor (and thus remain scaled/shaking)
+        // This set will store all rockets that have a rocket neighbor
         HashSet<Item> newScaledUp = new HashSet<Item>();
 
         // Scan the board for rocket items
-        for (int y = 0; y < board.boardRows; y++)
-        {
-            for (int x = 0; x < board.boardCols; x++)
-            {
-                Cell cell = board.Cells[x, y];
-                if (cell.item is RocketItem rocket)
-                {
+        for (int y = 0; y < gameBoard.boardRows; y++) {
+            for (int x = 0; x < gameBoard.boardCols; x++) {
+                Cell cell = gameBoard.Cells[x, y];
+                
+                if (cell.item is RocketItem rocket) {
                     // Check adjacency
                     bool hasRocketNeighbor = false;
-                    foreach (Cell neighbor in cell.adjacentCells)
-                    {
-                        if (neighbor.item is RocketItem)
-                        {
+                    foreach (Cell neighbor in cell.adjacentCells) {
+                        if (neighbor.item is RocketItem) {
                             hasRocketNeighbor = true;
                             break;
                         }
                     }
 
-                    if (hasRocketNeighbor)
-                    {
-                        // This rocket should be scaled + shaking
+                    if (hasRocketNeighbor) {
                         newScaledUp.Add(rocket);
-
-                        // If it's newly discovered, do scale up + infinite shake
-                        if (!scaledUpRockets.Contains(rocket))
-                        {
-                            // Scale up
-                            rocket.transform.DOScale(1.3f, 0.2f)
+                        // Do scale up + infinite shake (DOTween Animation)
+                        if (!scaledUpRockets.Contains(rocket)) {
+                            rocket.transform.DOScale(1.3f, 0.2f) // scale up
                                 .SetEase(Ease.OutBack)
                                 .OnComplete(() =>
                                 {
-                                    // Once scale-up finishes, start continuous shaking
                                     Tween shake = rocket.transform.DOShakePosition(
-                                        duration: 0.5f,     // how long one shake cycle lasts
-                                        strength: 0.1f,     // offset
+                                        duration: 0.5f,     
+                                        strength: 0.1f,   
                                         vibrato: 10,
                                         randomness: 90,
                                         snapping: false,
                                         fadeOut: false
                                     )
                                     .SetLoops(-1, LoopType.Restart); // infinite loop
-
                                     rocketShakeTweens[rocket] = shake;
                                 });
                         }
                     }
-                    else
-                    {
+                    else {
                         // No rocket neighbor => if it was scaled up, revert
-                        if (scaledUpRockets.Contains(rocket))
-                        {
-                            // Kill the shake tween if it exists
-                            if (rocketShakeTweens.TryGetValue(rocket, out Tween shakeTween))
-                            {
+                        if (scaledUpRockets.Contains(rocket)) {
+                            if (rocketShakeTweens.TryGetValue(rocket, out Tween shakeTween)) {
                                 shakeTween.Kill();
                                 rocketShakeTweens.Remove(rocket);
                             }
-                            // Scale down
-                            rocket.transform.DOScale(1.0f, 0.2f).SetEase(Ease.InBack);
+                            rocket.transform.DOScale(1.0f, 0.2f).SetEase(Ease.InBack); // scale down
                         }
                     }
                 }
@@ -161,4 +121,5 @@ public class HintManager : MonoBehaviour
         // Update the set of scaled up rockets
         scaledUpRockets = newScaledUp;
     }
+
 }

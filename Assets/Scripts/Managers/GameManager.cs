@@ -21,7 +21,12 @@ public class GameManager : Singleton<GameManager>
     {
         int currentLevel = PlayerPrefs.GetInt("Level", 1);
         PlayerPrefs.SetInt("Level", currentLevel + 1);
-        LoadMainMenu();
+
+        if (currentLevel >= 10) {
+            LoadMainMenu();
+        } else {
+            LoadLevelScene();
+        }
     }
 
     public void LoadLevelScene()
@@ -50,12 +55,6 @@ public class GameManager : Singleton<GameManager>
 
         yield return new WaitForSeconds(0.5f);
         loadingScreen.gameObject.SetActive(false);
-    }
-
-    public void RestartGame()
-    {
-        PlayerPrefs.SetInt("Level", 1);
-        LoadMainMenu();
     }
 
 }

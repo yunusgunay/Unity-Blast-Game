@@ -20,7 +20,6 @@ public class Item : MonoBehaviour
     public int Health;
 
     public FallAnimation FallAnimation;
-    public ParticleSystem Particle;
     private Cell cell;
     
     public Cell Cell
