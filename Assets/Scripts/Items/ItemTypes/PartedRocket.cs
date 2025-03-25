@@ -4,7 +4,7 @@ using DG.Tweening;
 
 // This class represents ROCKET PARTS of the exploided rockets.
 public class PartedRocket : MonoBehaviour {
-    public float travelTime = 0.3f;
+    private const float TRAVEL_TIME = 0.45f;
     private List<Cell> pathCells = new List<Cell>();
     private Vector3[] pathPositions;
 
@@ -31,7 +31,7 @@ public class PartedRocket : MonoBehaviour {
         }
 
         transform.position = pathPositions[0]; // place the rocket
-        transform.DOPath(pathPositions, travelTime, PathType.Linear, PathMode.Full3D) // DOTween animation
+        transform.DOPath(pathPositions, TRAVEL_TIME, PathType.Linear, PathMode.Full3D) // DOTween animation
             .SetEase(Ease.Linear)
             .OnWaypointChange(OnWaypointChange)
             .OnComplete(() => Destroy(gameObject));
@@ -46,14 +46,6 @@ public class PartedRocket : MonoBehaviour {
         Cell cell = pathCells[waypointIndex];
         if (cell.item != null) {
             cell.item.TryExecute();
-        }
-
-        // Spawn smoke effect at this cell.
-        if (RocketManager.Instance.smokePrefab != null) {
-            Instantiate(RocketManager.Instance.smokePrefab,
-                        cell.transform.position,
-                        Quaternion.identity,
-                        cell.parentBoard.particlesParent);
         }
     }
 

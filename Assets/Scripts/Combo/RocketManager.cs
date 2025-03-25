@@ -11,7 +11,6 @@ public class RocketManager : MonoBehaviour {
     public GameObject partedRightPrefab; 
     public GameObject partedTopPrefab; 
     public GameObject partedBottomPrefab;
-    public GameObject smokePrefab;
 
     private int activePartedRockets = 0;
     public event Action OnAllPartedRocketsFinished;
