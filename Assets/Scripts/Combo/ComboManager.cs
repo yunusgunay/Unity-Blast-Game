@@ -36,7 +36,7 @@ public class ComboManager : MonoBehaviour {
         else {
             tappedCell.item.TryExecute(); // single rocket explosion
         }
-
+        
         _ = MovesTracker.Instance.DecrementMoves();
     }
 
