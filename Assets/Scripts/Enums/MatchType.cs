@@ -1,8 +1,8 @@
-public enum MatchType {
+public enum MATCH_TYPE {
     None,
-    Green,
-    Yellow,
     Blue,
+    Green,
     Red,
-    Special
+    Yellow,  
+    Special // Rockets
 }

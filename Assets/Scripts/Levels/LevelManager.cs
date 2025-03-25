@@ -6,7 +6,6 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameBoard gameGrid;
-    // [SerializeField] private FallAndFillManager fallAndFillManager;
     [SerializeField] private GoalManager goalManager;
     [SerializeField] private MovesManager movesManager;
     private LevelData levelData;

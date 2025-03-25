@@ -26,7 +26,7 @@ public class GoalManager : Singleton<GoalManager>
         }
     }
 
-    public void UpdateLevelGoal(ItemType itemType)
+    public void UpdateLevelGoal(ITEM_TYPE itemType)
     {
         if (allGoalsCompleted) return;
 

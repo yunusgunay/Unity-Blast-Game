@@ -6,26 +6,26 @@ public class ItemFactory : Singleton<ItemFactory>
 {
     public ItemBase ItemBasePrefab;
 
-    private Dictionary<ItemType, Func<ItemBase, Item>> itemCreators = new Dictionary<ItemType, Func<ItemBase, Item>>
+    private Dictionary<ITEM_TYPE, Func<ItemBase, Item>> itemCreators = new Dictionary<ITEM_TYPE, Func<ItemBase, Item>>
     {
-        { ItemType.GreenCube, (itemBase) => CreateCubeItem(itemBase, MatchType.Green) },
-        { ItemType.BlueCube, (itemBase) => CreateCubeItem(itemBase, MatchType.Blue) },
-        { ItemType.RedCube, (itemBase) => CreateCubeItem(itemBase, MatchType.Red) },
-        { ItemType.YellowCube, (itemBase) => CreateCubeItem(itemBase, MatchType.Yellow) },
-        { ItemType.Box, CreateBoxItem },
-        { ItemType.Stone, CreateStoneItem },
-        { ItemType.Vase01, CreateVaseItem },
-        { ItemType.Vase02, CreateVaseItem },
-        { ItemType.HorizontalRocket, CreateHRocket },
-        { ItemType.VerticalRocket, CreateVRocket }
+        { ITEM_TYPE.GreenCube, (itemBase) => CreateCubeItem(itemBase, MATCH_TYPE.Green) },
+        { ITEM_TYPE.BlueCube, (itemBase) => CreateCubeItem(itemBase, MATCH_TYPE.Blue) },
+        { ITEM_TYPE.RedCube, (itemBase) => CreateCubeItem(itemBase, MATCH_TYPE.Red) },
+        { ITEM_TYPE.YellowCube, (itemBase) => CreateCubeItem(itemBase, MATCH_TYPE.Yellow) },
+        { ITEM_TYPE.Box, CreateBoxItem },
+        { ITEM_TYPE.Stone, CreateStoneItem },
+        { ITEM_TYPE.Vase01, CreateVaseItem },
+        { ITEM_TYPE.Vase02, CreateVaseItem },
+        { ITEM_TYPE.HorizontalRocket, CreateHRocket },
+        { ITEM_TYPE.VerticalRocket, CreateVRocket }
     };
 
-    public Item CreateItem(ItemType itemType, Transform parent)
+    public Item CreateItem(ITEM_TYPE itemType, Transform parent)
     {
-        if(itemType == ItemType.None) return null;
+        if(itemType == ITEM_TYPE.None) return null;
 
         var itemBase = Instantiate(ItemBasePrefab, Vector3.zero, Quaternion.identity, parent);
-        itemBase.ItemType = itemType;
+        itemBase.Type = itemType;
 
         if (!itemCreators.TryGetValue(itemType, out var createItem))
         {
@@ -36,7 +36,7 @@ public class ItemFactory : Singleton<ItemFactory>
         return createItem(itemBase);
     }
 
-    private static Item CreateCubeItem(ItemBase itemBase, MatchType matchType)
+    private static Item CreateCubeItem(ItemBase itemBase, MATCH_TYPE matchType)
     {
         var cubeItem = itemBase.gameObject.AddComponent<CubeItem>();
         cubeItem.PrepareCubeItem(itemBase, matchType);
@@ -67,14 +67,14 @@ public class ItemFactory : Singleton<ItemFactory>
     private static Item CreateHRocket(ItemBase itemBase)
     {
         var rocketItem = itemBase.gameObject.AddComponent<RocketItem>();
-        rocketItem.PrepareRocketItem(itemBase, RocketDirection.Horizontal);
+        rocketItem.PrepareRocketItem(itemBase, ROCKET_DIRECTION.Horizontal);
         return rocketItem;
     }
 
     private static Item CreateVRocket(ItemBase itemBase)
     {
         var rocketItem = itemBase.gameObject.AddComponent<RocketItem>();
-        rocketItem.PrepareRocketItem(itemBase, RocketDirection.Vertical);
+        rocketItem.PrepareRocketItem(itemBase, ROCKET_DIRECTION.Vertical);
         return rocketItem;
     }
 }

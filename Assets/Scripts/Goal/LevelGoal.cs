@@ -7,6 +7,6 @@ using System;
 [Serializable]
 public class LevelGoal
 {
-    public ItemType ItemType;
+    public ITEM_TYPE ItemType;
     public int Count;
 }

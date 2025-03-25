@@ -1,78 +1,83 @@
 using UnityEngine;
+
 // This class represents a single CUBE in a Cell.
 public class CubeItem : Item {
-    private MatchType matchType;
+    private MATCH_TYPE matchType;
     
-    public void PrepareCubeItem(ItemBase itemBase, MatchType matchType) {
+    public void PrepareCubeItem(ItemBase itemBase, MATCH_TYPE matchType) {
         this.matchType = matchType;
-        itemBase.Clickable = true;
-        Prepare(itemBase, GetSpritesForMatchType());
+        itemBase.IsClickable = true;
+        
+        Prepare(itemBase, GetSpriteForColor());
     }
 
-    private Sprite GetSpritesForMatchType() {
-        var imageLibrary = ImageConverter.Instance;
-        switch(matchType)
-        {
-            case MatchType.Green:
-                return imageLibrary.GreenCube;
-            case MatchType.Yellow:
-                return imageLibrary.YellowCube;
-            case MatchType.Blue:
-                return imageLibrary.BlueCube;
-            case MatchType.Red:
-                return imageLibrary.RedCube;
+    private Sprite GetSpriteForColor() {
+        ImageConverter imageLibrary = ImageConverter.Instance;
+        
+        if (matchType == MATCH_TYPE.Blue) {
+            return imageLibrary.BlueCube;
         }
+
+        if (matchType == MATCH_TYPE.Green) {
+            return imageLibrary.GreenCube;
+        }
+
+        if (matchType == MATCH_TYPE.Red) {
+            return imageLibrary.RedCube;
+        }
+
+        if (matchType == MATCH_TYPE.Yellow) {
+            return imageLibrary.YellowCube;
+        }
+
         return null;
     }
 
-    public override MatchType GetMatchType()
-    {
+    public override MATCH_TYPE GetMatchType() {
         return matchType;
     }
     
-    public override void HintUpdateToSprite(ItemType itemType)
-    {
-        var imageLibrary = ImageConverter.Instance;
+    public override void UpdateToHintSprite(ITEM_TYPE itemType) {
+        ImageConverter imageLibrary = ImageConverter.Instance;
 
-        switch(itemType)
-        {
-            case ItemType.HorizontalRocket:
-                UpdateColorfulBombSprite(imageLibrary);
+        switch (itemType) {
+            case ITEM_TYPE.HorizontalRocket:
+                UpdateRocketSprite(imageLibrary);
                 break;
-            case ItemType.VerticalRocket:
-                UpdateColorfulBombSprite(imageLibrary);
+            case ITEM_TYPE.VerticalRocket:
+                UpdateRocketSprite(imageLibrary);
                 break;
             default:
-                UpdateSprite(GetSpritesForMatchType());
+                UpdateSprite(GetSpriteForColor());
                 break;
         }
     }
-    private void UpdateColorfulBombSprite(ImageConverter imageLibrary)
-    {
+
+    private void UpdateRocketSprite(ImageConverter imageLibrary) {
         Sprite newSprite;
-        switch (matchType)
-        {
-            case MatchType.Green:
+        switch (matchType) {
+            case MATCH_TYPE.Green:
                 newSprite = imageLibrary.GreenCubeParticle;
                 break;
-            case MatchType.Yellow:
+            case MATCH_TYPE.Yellow:
                 newSprite = imageLibrary.YellowCubeParticle;
                 break;
-            case MatchType.Blue:
+            case MATCH_TYPE.Blue:
                 newSprite = imageLibrary.BlueCubeParticle;
                 break;
-            case MatchType.Red:
+            case MATCH_TYPE.Red:
                 newSprite = imageLibrary.RedCubeParticle;
                 break;
             default:
                 return;
         }
+    
         UpdateSprite(newSprite);
     }
     
-    public override void TryExecute()
-    {
+    public override void TryExecute() {
         ParticleAnimation.Instance.PlayParticle(this);
         base.TryExecute();
     }
+
 }

@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class LevelData
 {
-    public ItemType[,] GridData { get; protected set; }
+    public ITEM_TYPE[,] GridData { get; protected set; }
     public List<LevelGoal> Goals { get; protected set; }
     public int Moves { get; protected set; }
 
@@ -16,7 +16,7 @@ public class LevelData
         int numberOfVases = 0;
 
         // Set the grid data
-        GridData = new ItemType[levelInfo.grid_height, levelInfo.grid_width];
+        GridData = new ITEM_TYPE[levelInfo.grid_height, levelInfo.grid_width];
 
         int gridIndex = 0;
         for (int i = levelInfo.grid_height - 1; i >= 0; --i)
@@ -26,64 +26,64 @@ public class LevelData
                 {
                     // Obstacles
                     case "bo": // Box
-                        GridData[i, j] = ItemType.Box;
+                        GridData[i, j] = ITEM_TYPE.Box;
                         ++numberOfBoxes;
                         break;
                     case "s": // Stone
-                        GridData[i, j] = ItemType.Stone;
+                        GridData[i, j] = ITEM_TYPE.Stone;
                         ++numberOfStones;
                         break;
                     case "v": // Vase
-                        GridData[i, j] = ItemType.Vase02;
+                        GridData[i, j] = ITEM_TYPE.Vase02;
                         ++numberOfVases;
                         break;
                     
                     // Cubes
                     case "b": // Blue
-                        GridData[i, j] = ItemType.BlueCube;
+                        GridData[i, j] = ITEM_TYPE.BlueCube;
                         break;
                     case "g": // Green
-                        GridData[i, j] = ItemType.GreenCube;
+                        GridData[i, j] = ITEM_TYPE.GreenCube;
                         break;
                     case "r": // Red
-                        GridData[i, j] = ItemType.RedCube;
+                        GridData[i, j] = ITEM_TYPE.RedCube;
                         break;
                     case "y": // Yellow
-                        GridData[i, j] = ItemType.YellowCube;
+                        GridData[i, j] = ITEM_TYPE.YellowCube;
                         break;
                     
                     // Random
                     case "rand": 
-                        GridData[i, j] = ((ItemType[]) Enum.GetValues(typeof(ItemType)))[Random.Range(1, 5)];
+                        GridData[i, j] = ((ITEM_TYPE[]) Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)];
                         break;
 
                     // Rockets
                     case "hro": // Horizontal Rocket
-                        GridData[i, j] = ItemType.HorizontalRocket;
+                        GridData[i, j] = ITEM_TYPE.HorizontalRocket;
                         break;
                     case "vro": // Vertical Rocket
-                        GridData[i, j] = ItemType.VerticalRocket;
+                        GridData[i, j] = ITEM_TYPE.VerticalRocket;
                         break;
                     
                     default:
-                        GridData[i, j] = ((ItemType[])Enum.GetValues(typeof(ItemType)))[Random.Range(1, 5)];
+                        GridData[i, j] = ((ITEM_TYPE[])Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)];
                         break;
                 }
             }
 
         // Set the goals data
         Goals = new List<LevelGoal>();
-        if (numberOfBoxes != 0) Goals.Add(new LevelGoal { ItemType = ItemType.Box, Count = numberOfBoxes });
-        if (numberOfStones != 0) Goals.Add(new LevelGoal { ItemType = ItemType.Stone, Count = numberOfStones });
-        if (numberOfVases != 0) Goals.Add(new LevelGoal { ItemType = ItemType.Vase02, Count = numberOfVases });
+        if (numberOfBoxes != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Box, Count = numberOfBoxes });
+        if (numberOfStones != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Stone, Count = numberOfStones });
+        if (numberOfVases != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Vase02, Count = numberOfVases });
 
         // Set moves
         Moves = levelInfo.move_count;
     }
 
-    public static ItemType GetRandomCubeItemType()
+    public static ITEM_TYPE GetRandomCubeItemType()
     {
-        return ((ItemType[])Enum.GetValues(typeof(ItemType)))[Random.Range(1, 5)]; // 1,5 represents number of blocks
+        return ((ITEM_TYPE[])Enum.GetValues(typeof(ITEM_TYPE)))[Random.Range(1, 5)]; // 1,5 represents number of blocks
     }
 
 }

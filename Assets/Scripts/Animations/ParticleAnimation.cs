@@ -1,7 +1,9 @@
 using UnityEngine; 
 
 // ParticleAnimation manages particle effects in the game.
-public class ParticleAnimation : Singleton<ParticleAnimation> {
+public class ParticleAnimation : MonoBehaviour {
+    public static ParticleAnimation Instance { get; private set; }
+
     [Header("Cube Particles")]
     public ParticleSystem CubeParticleBlue;
     public ParticleSystem CubeParticleRed;
@@ -19,32 +21,53 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
     public ParticleSystem StoneParticle3;
     
     [Header("Vase Particles")]
-    public ParticleSystem VaseParticle1;
-    public ParticleSystem VaseParticle2;
-    public ParticleSystem VaseParticle3;
+    public ParticleSystem VaseParticle1; // for Vase02
+    public ParticleSystem VaseParticle2; // for Vase01
+    public ParticleSystem VaseParticle3; // for Vase02
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     public void PlayParticle(Item item) {
         ParticleSystem particle;
         Vector3 spawnPos = item.transform.position + new Vector3(0, 0, -0.1f);
-        Transform parent = item.Cell.gameGrid.particlesParent;
+        Transform parent = item.Cell.parentBoard.particlesParent;
         
-        if (item.ItemType == ItemType.GreenCube) {
-            particle = CubeParticleGreen;
+        // Blue Cube Particles
+        if (item.ItemType == ITEM_TYPE.BlueCube) {
+            particle = Instantiate(CubeParticleBlue, spawnPos, Quaternion.identity, parent);
+            particle.Play();
+            return;
+        }       
+       
+        // Red Cube Particles
+        if (item.ItemType == ITEM_TYPE.RedCube) {
+            particle = Instantiate(CubeParticleRed, spawnPos, Quaternion.identity, parent);
+            particle.Play();
+            return;
+        }
+        
+        // Yellow Cube Particles
+        if (item.ItemType == ITEM_TYPE.YellowCube) {
+            particle = Instantiate(CubeParticleYellow, spawnPos, Quaternion.identity, parent);
+            particle.Play();
+            return;
         }
 
-        else if (item.ItemType == ItemType.BlueCube) {
-            particle = CubeParticleBlue;
-        }
-        
-        else if (item.ItemType == ItemType.RedCube) {
-            particle = CubeParticleRed;
-        }
-        
-        else if (item.ItemType == ItemType.YellowCube) {
-            particle = CubeParticleYellow;
+        // Green Cube Particles
+        if (item.ItemType == ITEM_TYPE.GreenCube) {
+            particle = Instantiate(CubeParticleGreen, spawnPos, Quaternion.identity, parent);
+            particle.Play();
+            return;
         }
 
-        else if (item.ItemType == ItemType.Box) {           
+        // Box Obstacle Particles
+        if (item.ItemType == ITEM_TYPE.Box) {           
             ParticleSystem p1 = Instantiate(BoxParticle1, spawnPos, Quaternion.identity, parent);
             ParticleSystem p2 = Instantiate(BoxParticle2, spawnPos, Quaternion.identity, parent);
             ParticleSystem p3 = Instantiate(BoxParticle3, spawnPos, Quaternion.identity, parent);
@@ -54,7 +77,8 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
             return; 
         }
 
-        else if (item.ItemType == ItemType.Stone) {
+        // Stone Obstacle Particles
+        if (item.ItemType == ITEM_TYPE.Stone) {
             ParticleSystem p1 = Instantiate(StoneParticle1, spawnPos, Quaternion.identity, parent);
             ParticleSystem p2 = Instantiate(StoneParticle2, spawnPos, Quaternion.identity, parent);
             ParticleSystem p3 = Instantiate(StoneParticle3, spawnPos, Quaternion.identity, parent);
@@ -64,20 +88,21 @@ public class ParticleAnimation : Singleton<ParticleAnimation> {
             return;
         }
 
-        else if (item.ItemType == ItemType.Vase01) {
-            particle = VaseParticle2; // Vase01: Loses only its 1 component
+        // Vase01 Obstacle Particles
+        if (item.ItemType == ITEM_TYPE.Vase01) {
+            particle = Instantiate(VaseParticle2, spawnPos, Quaternion.identity, parent);
+            particle.Play();
+            return;
         }
 
-        else { // Vase02: Loses rest of the 2 components
+        // Vase02 Obstacle Particles
+        if (item.ItemType == ITEM_TYPE.Vase02) {
             ParticleSystem p1 = Instantiate(VaseParticle1, spawnPos, Quaternion.identity, parent);
             ParticleSystem p2 = Instantiate(VaseParticle3, spawnPos, Quaternion.identity, parent);
             p1.Play();
             p2.Play();
             return;
         }
-
-        ParticleSystem particleNew = Instantiate(particle, spawnPos, Quaternion.identity, parent);
-        particleNew.Play();
     }
 
 }

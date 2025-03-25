@@ -2,10 +2,11 @@
 public class StoneItem : Item {
     public void PrepareStoneItem(ItemBase itemBase) {
         itemBase.IsFallable = false;
+        itemBase.IsClickable = false;
+        itemBase.CanExplode = false;
         itemBase.Health = 1;
-        itemBase.InterectWithExplode = false;
-        itemBase.Clickable = false;
-        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.ItemType));      
+        
+        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));      
     }
 
     public override void TryExecute() {

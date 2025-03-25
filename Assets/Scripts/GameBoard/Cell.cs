@@ -1,146 +1,126 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// The Cell class represents a single cell in a grid-based game.
-/// It holds information about its position (X, Y), its neighbours, and any item it contains.
-/// It also provides methods to prepare the cell, update its label, update its neighbours, handle tap events, and get its fall target.
-/// </summary>
-public class Cell : MonoBehaviour
-{
-    public TextMesh labelText;
+// Cell class represents a single grid cell in the GameBoard.
+public class Cell : MonoBehaviour {
+    private ComboManager comboManager;
 
-    [HideInInspector] public int X;
-    [HideInInspector] public int Y;
-
-    public List<Cell> neighbours { get; private set; }
-    public List<Cell> allArea { get; private set; }
-
-    [HideInInspector] public Cell firstCellBelow;
+    public List<Cell> adjacentCells { get; private set; }
+    public List<Cell> surroundingCells { get; private set; }
+    public GameBoard parentBoard { get; private set; }
+    
+    private Item currItem;
+    
+    [HideInInspector] public int gridX, gridY;
+    [HideInInspector] public Cell cellBelow;
     [HideInInspector] public bool isFillingCell;
 
-    private Item _item;
-
-    public GameBoard gameGrid { get; private set; }
-
-    public Item item
-    {
-        get
-        {
-            return _item;
-        }
-        set
-        {
-            if (_item == value) return;
-
-            var oldItem = _item;
-            _item = value;
-
-            if (oldItem != null && Equals(oldItem.Cell, this))
-                oldItem.Cell = null;
-            
-            if (value != null)
-                value.Cell = this;
+    // Exposes the Item in the cell.
+    public Item item {
+        get => currItem;
+        set {
+            if (currItem == value) return;
+            if (currItem != null && ReferenceEquals(currItem.Cell, this))
+                currItem.Cell = null;
+            currItem = value;
+            if (currItem != null)
+                currItem.Cell = this;
         }
     }
 
-    public void Prepare(int x, int y, GameBoard board)
-    {
-        gameGrid = board;
-        X = x;
-        Y = y;
-        transform.localPosition = new Vector3 (x, y);
-        isFillingCell = (Y == gameGrid.Rows - 1);
+    // Sets up cell's position and references.
+    public void InitializeCell(int x, int y, GameBoard board) {
+        parentBoard = board;
+        gridX = x; 
+        gridY = y;
         
-        UpdateLabel();
+        transform.localPosition = new Vector3 (x, y);
+        isFillingCell = gridY == parentBoard.boardRows - 1;
+        
         UpdateNeighbours();
-        UpdateAllArea();
+        UpdateSurroundings();
     }
 
-    private void UpdateLabel()
-    {
-        var cellName = X + " " + Y;
-        labelText.text = cellName;
-        gameObject.name = "Cell " + cellName;
+    public void SetComboManager(ComboManager manager) {
+        comboManager = manager;
     }
 
-    private void UpdateNeighbours()
-    {
-        neighbours = GetNeighbours(Direction.Up, Direction.Down, Direction.Left, Direction.Right);
-        firstCellBelow = GetNeighbourWithDirection(Direction.Down);
+    // Finds immediate neighbors (Up, Down, Left, Right).
+    private void UpdateNeighbours() {
+        adjacentCells = GetNeighbors(DIRECTION.Up, DIRECTION.Down, DIRECTION.Left, DIRECTION.Right);
+        cellBelow = GetNeighbor(DIRECTION.Down);
     }
 
-    private List<Cell> GetNeighbours(params Direction[] directions)
-    {
-        var neighbours = new List<Cell>();
+    // Gathers all surrounding cells in eight directions.
+    private void UpdateSurroundings() {
+        surroundingCells = GetNeighbors(
+            DIRECTION.Up, DIRECTION.UpRight, DIRECTION.Right, DIRECTION.DownRight,
+            DIRECTION.Down, DIRECTION.DownLeft, DIRECTION.Left, DIRECTION.UpLeft
+        );
+    }
 
-        foreach (var direction in directions)
-        {
-            var neighbour = GetNeighbourWithDirection(direction);
-            if (neighbour != null)
-            {
-                neighbours.Add(neighbour);
+    // Get cell's neighbors according to given directions.
+    private List<Cell> GetNeighbors(params DIRECTION[] directions) {
+        var results = new List<Cell>();
+        foreach (DIRECTION dir in directions) {
+            Cell neighbor = GetNeighbor(dir);
+            if (neighbor != null) {
+                results.Add(neighbor);
             }
         }
-
-        return neighbours;
+        return results;
     }
 
-    public Cell GetNeighbourWithDirection(Direction direction)
-    {
-        var x = X;
-        var y = Y;
-        switch (direction)
-        {
-            case Direction.None: break;
-            case Direction.Right:     x += 1;         break;
-            case Direction.Left:      x -= 1;         break;
-            case Direction.UpRight:   x += 1; y += 1; break;
-            case Direction.DownRight: x += 1; y -= 1; break;
-            case Direction.UpLeft:    x -= 1; y += 1; break;
-            case Direction.DownLeft:  x -= 1; y -= 1; break;
-            case Direction.Up:                y += 1; break;
-            case Direction.Down:              y -= 1; break;
-            default: throw new ArgumentOutOfRangeException("direction", direction, null);
+    // Get cell's neighbor according to given direction.
+    public Cell GetNeighbor(DIRECTION direction) {
+        Vector2Int offset = directionOffsets[direction];
+        int targetX = gridX + offset.x;
+        int targetY = gridY + offset.y;
+
+        if (!IsInsideBoard(targetX, targetY)) {
+            return null;
         }
 
-        if (x >= gameGrid.Cols || x < 0 || y >= gameGrid.Rows || y < 0) return null;
-
-        return gameGrid.Cells[x, y];
+        return parentBoard.Cells[targetX, targetY];
     }
 
-    public void UpdateAllArea()
-    {
-        allArea = GetNeighbours(Direction.Up, Direction.UpRight, Direction.Right, Direction.DownRight, Direction.Down, Direction.DownLeft, Direction.Left, Direction.UpLeft);
+    // The dictionary mapping each direction to an (x, y) offset.
+    private static readonly Dictionary<DIRECTION, Vector2Int> directionOffsets = new Dictionary<DIRECTION, Vector2Int> {
+        { DIRECTION.None, new Vector2Int(0, 0) },
+        { DIRECTION.Up, new Vector2Int(0, 1) },
+        { DIRECTION.Down, new Vector2Int(0, -1) },
+        { DIRECTION.Right, new Vector2Int(1, 0) },
+        { DIRECTION.Left, new Vector2Int(-1, 0) },
+        { DIRECTION.UpRight, new Vector2Int(1, 1) },
+        { DIRECTION.UpLeft, new Vector2Int(-1, 1) },
+        { DIRECTION.DownRight, new Vector2Int(1, -1) },
+        { DIRECTION.DownLeft, new Vector2Int(-1, -1) },
+    };
+
+    private bool IsInsideBoard(int x, int y) {
+        return x >= 0 && x < parentBoard.boardCols && y >= 0 && y < parentBoard.boardRows;
     }
 
-    public void CellTapped()
-    {
-        if (item == null) return;
+    public void OnCellTapped() {
+        if (item == null) { return; }
 
-        SpecialTapSwitcher();
-    }
-
-    private void SpecialTapSwitcher()
-    {
-        switch (item.GetMatchType())
-        {
-            case MatchType.Special:
-                ComboManager.Instance.TryExecute(this);
+        switch (item.GetMatchType()) {
+            case MATCH_TYPE.Special: // ROCKET
+                if (comboManager != null) {
+                    comboManager.TryExecute(this);
+                }
                 break;
-            default: 
+            default: // CUBES
                 MatchingManager.Instance.ExplodeMatchingCells(this);
                 break;
         }
     }
 
-    public Cell GetFallTarget()
-    {
-        var targetCell = this;
-        if(targetCell.firstCellBelow != null && targetCell.firstCellBelow.item == null)
-            targetCell = targetCell.firstCellBelow;
-
-        return targetCell;
+    public Cell FindFallTarget() {
+        if (cellBelow != null && cellBelow.item == null) {
+            return cellBelow;
+        }
+        return this;
     }
+
 }

@@ -26,9 +26,9 @@ public class HintManager : MonoBehaviour
         var visitedCells = new HashSet<Cell>();
         var queue = new Queue<Cell>();
 
-        for (int y = 0; y < board.Rows; ++y)
+        for (int y = 0; y < board.boardRows; ++y)
         {
-            for (int x = 0; x < board.Cols; ++x)
+            for (int x = 0; x < board.boardCols; ++x)
             {
                 var cell = board.Cells[x, y];
                 if (cell.item == null || visitedCells.Contains(cell))
@@ -68,11 +68,11 @@ public class HintManager : MonoBehaviour
     {
         if (matchedCount >= 4)
         {
-            item.HintUpdateToSprite(ItemType.HorizontalRocket);
+            item.UpdateToHintSprite(ITEM_TYPE.HorizontalRocket);
         }
         else
         {
-            item.HintUpdateToSprite(item.ItemType);
+            item.UpdateToHintSprite(item.ItemType);
         }
     }
 
@@ -93,16 +93,16 @@ public class HintManager : MonoBehaviour
         HashSet<Item> newScaledUp = new HashSet<Item>();
 
         // Scan the board for rocket items
-        for (int y = 0; y < board.Rows; y++)
+        for (int y = 0; y < board.boardRows; y++)
         {
-            for (int x = 0; x < board.Cols; x++)
+            for (int x = 0; x < board.boardCols; x++)
             {
                 Cell cell = board.Cells[x, y];
                 if (cell.item is RocketItem rocket)
                 {
                     // Check adjacency
                     bool hasRocketNeighbor = false;
-                    foreach (Cell neighbor in cell.neighbours)
+                    foreach (Cell neighbor in cell.adjacentCells)
                     {
                         if (neighbor.item is RocketItem)
                         {

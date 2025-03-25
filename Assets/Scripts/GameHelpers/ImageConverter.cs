@@ -23,23 +23,23 @@ public class ImageConverter : Singleton<ImageConverter> {
     public Sprite HorizontalRocket;
     public Sprite VerticalRocket;
 
-    public Sprite getImage(ItemType itemType) {
+    public Sprite getImage(ITEM_TYPE itemType) {
         switch(itemType) {
             // Cubes
-            case ItemType.BlueCube: return BlueCube;
-            case ItemType.GreenCube: return GreenCube;
-            case ItemType.RedCube: return RedCube;   
-            case ItemType.YellowCube: return YellowCube;
+            case ITEM_TYPE.BlueCube: return BlueCube;
+            case ITEM_TYPE.GreenCube: return GreenCube;
+            case ITEM_TYPE.RedCube: return RedCube;   
+            case ITEM_TYPE.YellowCube: return YellowCube;
             
             // Obstacles
-            case ItemType.Box: return Box;
-            case ItemType.Stone: return Stone;
-            case ItemType.Vase01: return Vase01;
-            case ItemType.Vase02: return Vase02;
+            case ITEM_TYPE.Box: return Box;
+            case ITEM_TYPE.Stone: return Stone;
+            case ITEM_TYPE.Vase01: return Vase01;
+            case ITEM_TYPE.Vase02: return Vase02;
             
             // Rockets
-            case ItemType.HorizontalRocket: return HorizontalRocket;
-            case ItemType.VerticalRocket: return VerticalRocket;
+            case ITEM_TYPE.HorizontalRocket: return HorizontalRocket;
+            case ITEM_TYPE.VerticalRocket: return VerticalRocket;
 
             default: return null;
         }

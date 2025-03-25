@@ -46,7 +46,7 @@ public class TouchManager : MonoBehaviour
         var hit = Physics2D.OverlapPoint(camera.ScreenToWorldPoint(pos)) as BoxCollider2D;
         if (hit != null && hit.CompareTag(cellCollider))
         {
-            hit.GetComponent<Cell>().CellTapped();
+            hit.GetComponent<Cell>().OnCellTapped();
         }
     }
     private void DisableTouch()

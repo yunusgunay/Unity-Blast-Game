@@ -12,10 +12,10 @@ public class MatchingManager : Singleton<MatchingManager>
 
     public void Start()
     {
-        visitedCells = new bool[board.Cols, board.Rows];
+        visitedCells = new bool[board.boardCols, board.boardRows];
     }
 
-    public List<Cell> FindMatches(Cell cell, MatchType matchType)
+    public List<Cell> FindMatches(Cell cell, MATCH_TYPE matchType)
     {
         var matchedCells = new List<Cell>();
         ClearVisitedCells();
@@ -24,23 +24,23 @@ public class MatchingManager : Singleton<MatchingManager>
         return matchedCells;
     }
 
-    public void FindMatches(Cell cell, MatchType matchType, List<Cell> matchedCells)
+    public void FindMatches(Cell cell, MATCH_TYPE matchType, List<Cell> matchedCells)
     {
         if (cell == null) return;
 
-        var x = cell.X; 
-        var y = cell.Y;
+        var x = cell.gridX; 
+        var y = cell.gridY;
 
         if (visitedCells[x,y]) return;
 
-        if(cell.item != null && cell.item.GetMatchType() == matchType && cell.item.GetMatchType() != MatchType.None)
+        if(cell.item != null && cell.item.GetMatchType() == matchType && cell.item.GetMatchType() != MATCH_TYPE.None)
         {
             visitedCells[x,y] = true;
             matchedCells.Add(cell);
 
             if (!cell.item.Clickable) return;
 
-            var neighbours = cell.neighbours;
+            var neighbours = cell.adjacentCells;
 
             if (neighbours.Count == 0) return;
 
@@ -101,11 +101,11 @@ public class MatchingManager : Singleton<MatchingManager>
         // If 4+ cubes were matched, spawn rocket
         if (matchedCellCount >= 4) 
         {
-            RocketDirection randomDir = (Random.Range(0, 2) == 0) 
-                ? RocketDirection.Horizontal : RocketDirection.Vertical;
+            ROCKET_DIRECTION randomDir = (Random.Range(0, 2) == 0) 
+                ? ROCKET_DIRECTION.Horizontal : ROCKET_DIRECTION.Vertical;
 
-            ItemType rocketType = (randomDir == RocketDirection.Horizontal) 
-                ? ItemType.HorizontalRocket : ItemType.VerticalRocket;
+            ITEM_TYPE rocketType = (randomDir == ROCKET_DIRECTION.Horizontal) 
+                ? ITEM_TYPE.HorizontalRocket : ITEM_TYPE.VerticalRocket;
 
             cell.item = ItemFactory.Instance.CreateItem(rocketType, board.itemsParent);         
         }
@@ -116,7 +116,7 @@ public class MatchingManager : Singleton<MatchingManager>
     
     private void ExplodeMatchingCellsInNeightbours(Cell cell, List<Cell> previousCells)
     {
-        var explodedCellNeightbours = cell.neighbours;
+        var explodedCellNeightbours = cell.adjacentCells;
 
         for(int j = 0; j < explodedCellNeightbours.Count; j++)
         {

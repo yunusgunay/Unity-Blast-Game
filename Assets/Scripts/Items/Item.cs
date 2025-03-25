@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     private static int childSpriteOrder;
     public SpriteRenderer SpriteRenderer;
 
-    public ItemType ItemType;
+    public ITEM_TYPE ItemType;
     public bool Clickable;
     public bool InterectWithExplode;
     public bool IsFallable;
@@ -49,9 +49,9 @@ public class Item : MonoBehaviour
     {
         SpriteRenderer = AddSprite(sprite);
 
-        ItemType = itemBase.ItemType;
-        Clickable = itemBase.Clickable;
-        InterectWithExplode = itemBase.InterectWithExplode;
+        ItemType = itemBase.Type;
+        Clickable = itemBase.IsClickable;
+        InterectWithExplode = itemBase.CanExplode;
         IsFallable = itemBase.IsFallable;
         FallAnimation = itemBase.FallAnimation;
         Health = itemBase.Health;
@@ -71,7 +71,7 @@ public class Item : MonoBehaviour
         return spriteRenderer;
     }
 
-    public virtual MatchType GetMatchType() { return MatchType.None; }
+    public virtual MATCH_TYPE GetMatchType() { return MATCH_TYPE.None; }
 
     public virtual void TryExecute()
     {
@@ -91,7 +91,7 @@ public class Item : MonoBehaviour
         spriteRenderer.sprite = sprite; 
     }
 
-    public virtual void HintUpdateToSprite(ItemType itemType)
+    public virtual void UpdateToHintSprite(ITEM_TYPE itemType)
     {
         return;
     }
@@ -100,6 +100,6 @@ public class Item : MonoBehaviour
     {
         if (!this.IsFallable) return;
 
-        FallAnimation.TryFall(cell.GetFallTarget());
+        FallAnimation.TryFall(cell.FindFallTarget());
     }
 }

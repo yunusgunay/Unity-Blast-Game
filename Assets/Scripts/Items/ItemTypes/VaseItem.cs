@@ -2,16 +2,16 @@
 public class VaseItem : Item {
     public void PrepareVaseItem(ItemBase itemBase) {
         itemBase.IsFallable = true;
-        
-        if(itemBase.ItemType == ItemType.Vase01) {
+        itemBase.IsClickable = false;
+        itemBase.CanExplode = true;
+
+        if(itemBase.Type == ITEM_TYPE.Vase01) {
             itemBase.Health = 1;
         } else {
             itemBase.Health = 2; // ItemType.Vase02
         }
 
-        itemBase.InterectWithExplode = true;
-        itemBase.Clickable = false;
-        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.ItemType));
+        Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));
     }
 
     public override void TryExecute() {
@@ -20,7 +20,9 @@ public class VaseItem : Item {
             ParticleAnimation.Instance.PlayParticle(this);
             base.TryExecute();
         } else {
+            ParticleAnimation.Instance.PlayParticle(this);
             UpdateSprite(ImageConverter.Instance.Vase01); 
         }
     }
+
 }

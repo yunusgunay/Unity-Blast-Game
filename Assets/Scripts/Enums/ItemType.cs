@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum ItemType {
+public enum ITEM_TYPE {
     None,
     
     [Header("Cube Types")]

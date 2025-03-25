@@ -1,11 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// 
-/// Display a loading screen with a progress indicator with text.
-/// 
-/// </summary>
+// Loading screen between each level.
 public class LoadingScreen : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI loadingText;

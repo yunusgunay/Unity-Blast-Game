@@ -1138,8 +1138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a84a3c4c6271bb4a8b232a9c86b48b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameGrid: {fileID: 1375860279}
-  sr: {fileID: 476379089}
+  gameBoard: {fileID: 1375860279}
+  background: {fileID: 476379089}
 --- !u!1 &491579509
 GameObject:
   m_ObjectHideFlags: 0
@@ -2027,6 +2027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720f95aa3e1cdb04c96e13159776f33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rocketManager: {fileID: 810160838}
 --- !u!114 &810160836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2057,7 +2058,7 @@ MonoBehaviour:
   partedRightPrefab: {fileID: 3460714587810511059, guid: ebec9d16455c9d841a8711fb703756de, type: 3}
   partedTopPrefab: {fileID: 4684749140348182723, guid: 97f5de125ecd3b642a14d701f83b585c, type: 3}
   partedBottomPrefab: {fileID: 4675046823580646070, guid: d41796cc2564f504cbdd2f9d03aaba00, type: 3}
-  fogFXPrefab: {fileID: 7722398435415215810, guid: 4d388ea27f21e1c46b8d899aea73c9de, type: 3}
+  smokePrefab: {fileID: 7722398435415215810, guid: 4d388ea27f21e1c46b8d899aea73c9de, type: 3}
 --- !u!114 &810160839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3265,6 +3266,7 @@ MonoBehaviour:
   itemsParent: {fileID: 2110336431}
   particlesParent: {fileID: 211221634}
   cellPrefab: {fileID: 4627627426019165309, guid: a68709778bc7f084dabb823e857cb9d1, type: 3}
+  comboManager: {fileID: 810160833}
   levelInfo:
     level_number: 0
     grid_width: 0
