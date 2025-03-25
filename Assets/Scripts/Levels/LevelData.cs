@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class LevelData
 {
     public ITEM_TYPE[,] GridData { get; protected set; }
-    public List<LevelGoal> Goals { get; protected set; }
+    public List<GoalData> Goals { get; protected set; }
     public int Moves { get; protected set; }
 
     public LevelData(LevelInterface levelInfo)
@@ -72,10 +72,10 @@ public class LevelData
             }
 
         // Set the goals data
-        Goals = new List<LevelGoal>();
-        if (numberOfBoxes != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Box, Count = numberOfBoxes });
-        if (numberOfStones != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Stone, Count = numberOfStones });
-        if (numberOfVases != 0) Goals.Add(new LevelGoal { ItemType = ITEM_TYPE.Vase02, Count = numberOfVases });
+        Goals = new List<GoalData>();
+        if (numberOfBoxes != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Box, RequiredCount = numberOfBoxes });
+        if (numberOfStones != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Stone, RequiredCount = numberOfStones });
+        if (numberOfVases != 0) Goals.Add(new GoalData { GoalObstacle = ITEM_TYPE.Vase02, RequiredCount = numberOfVases });
 
         // Set moves
         Moves = levelInfo.move_count;

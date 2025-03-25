@@ -1,21 +1,20 @@
 using UnityEngine;
 
-public class LevelCompleted : MonoBehaviour
-{
-    [SerializeField] private GameBoard board;
+public class LevelCompleted : MonoBehaviour {
+    [SerializeField] private GameBoard gameBoard;
 
-    private void OnEnable()
-    {
-        GoalManager.Instance.OnGoalsCompleted += HandleGoalsCompleted;
+    private void OnEnable() {
+        GoalManager.Instance.OnGoalsCompleted += OnAllGoalsDone;
     }
 
-    private void OnDisable()
-    {
-        GoalManager.Instance.OnGoalsCompleted -= HandleGoalsCompleted;
+    private void OnDisable() {
+        if (GoalManager.Instance != null) {
+            GoalManager.Instance.OnGoalsCompleted -= OnAllGoalsDone;
+        }
     }
 
-    private void HandleGoalsCompleted()
-    {
+    private void OnAllGoalsDone() {
         UIManager.Instance.SetLevelCompletedPanel();
     }
+
 }

@@ -2,64 +2,36 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// The GoalObject class represents a goal in a level. It holds a reference to a LevelGoal object and tracks the current count towards that goal.
-/// It provides methods to prepare the goal object, decrease the goal count, and check if the goal is completed.
-/// When the goal count reaches zero, it marks the goal as completed and plays a completion effect.
-/// </summary>
-public class GoalObject : MonoBehaviour
-{
+// This class represent goal objects in a level.
+public class GoalObject : MonoBehaviour {
     [SerializeField] private Image goalImage;
-    [SerializeField] private Image completedMarkImage;
-    [SerializeField] private TextMeshProUGUI goalCountText;
+    [SerializeField] private Image completionMark;
+    [SerializeField] private TextMeshProUGUI countLabel;
 
-    private int goalCount;
-    private LevelGoal levelGoal;
+    private int remainingAmount;
+    private GoalData goalData;
 
-    public LevelGoal LevelGoal => levelGoal;
+    public void PrepareGoalObj(GoalData data) {
+        goalData = data;
+        
+        goalImage.sprite = ImageConverter.Instance.getImage(data.GoalObstacle);
 
-    public void Prepare(LevelGoal goal)
-    {
-        levelGoal = goal;
-        var goalSprite = ImageConverter.Instance.getImage(levelGoal.ItemType);
-        goalImage.sprite = goalSprite;
-
-        goalCount = levelGoal.Count;
-        UpdateGoalCountText();
+        remainingAmount = data.RequiredCount;
+        completionMark.gameObject.SetActive(false);
+        
+        countLabel.text = remainingAmount.ToString();
     }
 
-    public void DecreaseCount()
-    {
-        goalCount--;
-        UpdateGoalState();
+    public GoalData GetData() {
+        return goalData;
     }
 
-    private void UpdateGoalState()
-    {
-        if (goalCount <= 0)
-        {
-            MarkGoalAsCompleted();
-            return;
-        }
-
-        UpdateGoalCountText();
+    public TextMeshProUGUI CountLabel {
+        get { return countLabel; }
     }
 
-    private void UpdateGoalCountText()
-    {
-        goalCountText.text = goalCount.ToString();
+    public Image CompletionMark {
+        get { return completionMark; }
     }
 
-    private void MarkGoalAsCompleted()
-    {
-        goalCount = 0;
-        goalCountText.gameObject.SetActive(false);
-        completedMarkImage.gameObject.SetActive(true);
-    }
-
-
-    public bool IsCompleted()
-    {
-        return goalCount <= 0;
-    }
 }

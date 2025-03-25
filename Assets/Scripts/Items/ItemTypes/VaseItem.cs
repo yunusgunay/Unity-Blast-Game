@@ -8,7 +8,7 @@ public class VaseItem : Item {
         if(itemBase.Type == ITEM_TYPE.Vase01) {
             itemBase.Health = 1;
         } else {
-            itemBase.Health = 2; // ItemType.Vase02
+            itemBase.Health = 2; // ITEM_TYPE.Vase02
         }
 
         Prepare(itemBase, ImageConverter.Instance.getImage(itemBase.Type));

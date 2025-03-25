@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalImage: {fileID: 879445965682187101}
-  completedMarkImage: {fileID: 3542991637873219570}
-  goalCountText: {fileID: 5654922281223366709}
+  completionMark: {fileID: 3542991637873219570}
+  countLabel: {fileID: 5654922281223366709}
 --- !u!1 &8440003526612921629
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,11 +42,11 @@ public class GameManager : Singleton<GameManager>
 
         while (!asyncLoad.isDone)
         {
-            loadingScreen.SetProgress(asyncLoad.progress);
+            loadingScreen.ShowLoading(asyncLoad.progress);
             yield return null;
         }
 
-        loadingScreen.SetProgress(100);
+        loadingScreen.ShowLoading(100);
 
         yield return new WaitForSeconds(0.5f);
         loadingScreen.gameObject.SetActive(false);

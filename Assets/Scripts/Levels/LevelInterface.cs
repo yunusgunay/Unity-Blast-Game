@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class LevelInterface
-{
+public class LevelInterface {
     public int level_number;
     public int grid_width;
     public int grid_height;

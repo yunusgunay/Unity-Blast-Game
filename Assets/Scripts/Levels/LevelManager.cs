@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
         PrepareLevel();
         InitFallAndFills();
         movesManager.Init(levelData.Moves);
-        goalManager.Init(levelData.Goals);
+        goalManager.InitGoal(levelData.Goals);
 
     }
 

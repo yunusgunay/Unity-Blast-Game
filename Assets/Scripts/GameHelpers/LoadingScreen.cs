@@ -1,16 +1,20 @@
 using TMPro;
 using UnityEngine;
 
-// Loading screen between each level.
-public class LoadingScreen : MonoBehaviour
-{
-    [SerializeField] private TextMeshProUGUI loadingText;
+// Loading screen between scenes.
+public class LoadingScreen : MonoBehaviour {
+    [SerializeField] private TextMeshProUGUI loadingLabel;
 
-    public void SetProgress(float progress)
-    {
-        loadingText.text = progress < 0.25f ? "Loading" :
-                           progress < 0.50f ? "Loading." :
-                           progress < 0.75f ? "Loading.." :
-                                              "Loading...";
+    public void ShowLoading(float time) {
+        if (time < 0.25f) {
+            loadingLabel.text = "Loading";
+        } else if (time < 0.50f) {
+            loadingLabel.text = "Loading.";
+        } else if (time < 0.75f) {
+            loadingLabel.text = "Loading..";
+        } else {
+            loadingLabel.text = "Loading...";
+        }
     }
+
 }
