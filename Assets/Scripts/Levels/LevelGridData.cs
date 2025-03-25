@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-public class LevelData
-{
+public class LevelGridData {
     public ITEM_TYPE[,] GridData { get; protected set; }
     public List<GoalData> Goals { get; protected set; }
     public int Moves { get; protected set; }
 
-    public LevelData(LevelInterface levelInfo)
+    public LevelGridData(LevelInterface levelInfo)
     {
         // Count obstacles for goal data
         int numberOfBoxes = 0;

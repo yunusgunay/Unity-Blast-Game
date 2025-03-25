@@ -7,7 +7,7 @@ public class FallAndFillManager : MonoBehaviour {
 
     private bool isActive;
     private GameBoard board;
-    public LevelData levelData;
+    public LevelGridData levelData;
     private Cell[] fillingCells;
     public RocketManager rocketManager;
 
@@ -19,7 +19,7 @@ public class FallAndFillManager : MonoBehaviour {
         Instance = this;
     }
 
-    public void Init(GameBoard board, LevelData levelData) {
+    public void Init(GameBoard board, LevelGridData levelData) {
         this.board = board;
         this.levelData = levelData;
         FindEmptyCells();
@@ -60,7 +60,7 @@ public class FallAndFillManager : MonoBehaviour {
 
             if (cell.item == null) {
                 // Create a new random cube item
-                cell.item = ItemFactory.Instance.CreateItem(LevelData.GetRandomCubeItemType(), board.itemsParent);
+                cell.item = ItemFactory.Instance.CreateItem(LevelGridData.GetRandomCubeItemType(), board.itemsParent);
 
                 // Calculate an initial spawn position (above the cell)
                 float offsetY = 0.0f;
@@ -92,13 +92,15 @@ public class FallAndFillManager : MonoBehaviour {
     }
     
     private void OnEnable() {
-        if (rocketManager != null)
+        if (rocketManager != null) {
             rocketManager.OnAllPartedRocketsFinished += HandleAllPartedRocketsDone;
+        }
     }
 
     private void OnDisable() {
-        if (rocketManager != null)
+        if (rocketManager != null) {
             rocketManager.OnAllPartedRocketsFinished -= HandleAllPartedRocketsDone;
+        }
     }
 
     private void HandleAllPartedRocketsDone() {

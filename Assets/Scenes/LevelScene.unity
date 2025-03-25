@@ -2070,7 +2070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fdb7e8edb4187a44864e436eb3cfb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameBoard: {fileID: 0}
+  gameBoard: {fileID: 1375860279}
 --- !u!114 &810160840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16886ddda0e829f46a717e99ab7b4e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1375860279}
+  gameBoard: {fileID: 1375860279}
 --- !u!1 &823072448
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameBoard gameGrid;
     [SerializeField] private GoalManager goalManager;
     [SerializeField] private MovesManager movesManager;
-    private LevelData levelData;
+    private LevelGridData levelData;
 
     private void Start()
     {
@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 
     private void PrepareLevel()
     {
-        levelData = new LevelData(gameGrid.levelInfo);
+        levelData = new LevelGridData(gameGrid.levelInfo);
 
         for (int i = 0; i < gameGrid.levelInfo.grid_height; ++i)
             for (int j = 0; j < gameGrid.levelInfo.grid_width; ++j)
@@ -50,4 +50,5 @@ public class LevelManager : MonoBehaviour
         string jsonString = jsonFile.text;
         return JsonUtility.FromJson<LevelInterface>(jsonString);
     }
+
 }
